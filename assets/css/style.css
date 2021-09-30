@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Roboto&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Roboto&display=swap");
 
 :root {
   --primaryColor: #667f97;
@@ -22,4 +22,43 @@ header h1 {
   font-size: 4em;
   text-align: center;
   font-family: "Cinzel Decorative", cursive;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 5em;
+}
+
+.search-container {
+  min-width: 15.5em;
+  width: 20em;
+  margin: 0 3em;
+  margin-bottom: 3em;
+}
+
+.form-label {
+  font-size: 28px;
+}
+
+.form-input {
+  outline: none;
+  border: none;
+  font-size: 24px;
+  padding: 5px;
+  border: 2px solid #808080;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.btn {
+  font-size: 22px;
+  background-color: var(--primaryColor);
+  border-radius: 10px;
+  padding: 10px;
+  color: white;
+  border: none;
+  margin-top: 10px;
+  width: 100%;
 }
