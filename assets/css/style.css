@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Roboto&display=swap');
+
+:root {
+  --primaryColor: #667f97;
+  --textColor: white;
+  --border-radius: 0.3rem;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+main {
+  font-family: "Roboto", sans-serif;
+}
+
+header h1 {
+  background-color: var(--primaryColor);
+  color: white;
+  padding: 0.4em;
+  font-size: 4em;
+  text-align: center;
+  font-family: "Cinzel Decorative", cursive;
+}
