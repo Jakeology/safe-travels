@@ -43,9 +43,10 @@ header h1 {
 .covid-container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   background-color: rgba(245, 245, 245, 0.555);
   width: 100%;
-  height: 250px;
+  padding: 2em;
 }
 
 .btn {
@@ -60,3 +61,16 @@ header h1 {
   background-color: var(--textColor);
   color: var(--primaryColor);
 }
+
+.c19-city-title {
+  margin: 2em;
+}
+
+.c19-city-stats {
+  width: 50em;
+  background-color: white;
+  height: 250px;
+  border-radius: 0.3em;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.06);
+}
+
