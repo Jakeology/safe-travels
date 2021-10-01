@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Roboto&display=swap");
 
 :root {
-  --primaryColor: #667f97;
-  --textColor: white;
+  --primaryColor: white;
+  --textColor: #88ca97;
   --border-radius: 0.3rem;
 }
 
@@ -17,7 +17,7 @@ main {
 
 header h1 {
   background-color: var(--primaryColor);
-  color: white;
+  color: var(--textColor);
   padding: 0.4em;
   font-size: 4em;
   text-align: center;
@@ -32,10 +32,12 @@ header h1 {
 }
 
 .search-container {
-  min-width: 15.5em;
-  width: 20em;
+  min-width: 20em;
+  width: 25em;
   margin: 0 3em;
   margin-bottom: 3em;
+  border: 2px solid gainsboro;
+  padding: 3em;
 }
 
 .form-label {
@@ -52,13 +54,30 @@ header h1 {
   width: 100%;
 }
 
+.weather-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 70em;
+}
+
+.forecast-card {
+  margin-bottom: 1em;
+  width: 12em;
+}
+
 .btn {
   font-size: 22px;
   background-color: var(--primaryColor);
+  border: 2px solid var(--textColor);
   border-radius: 10px;
   padding: 10px;
-  color: white;
-  border: none;
+  color: var(--textColor);
   margin-top: 10px;
   width: 100%;
+}
+
+.btn:hover {
+  background-color: var(--textColor);
+  color: var(--primaryColor);
 }
