@@ -32,7 +32,14 @@ header h1 {
 
 .search-container {
   margin: 0 auto;
-  width: 20em;
+  width: 17em;
+}
+
+.input-group-text {
+  border-bottom-right-radius: 2em;
+  border-top-right-radius: 2em;
+  color: var(--textColor);
+  background-color: white;
 }
 
 .form-control {
@@ -47,19 +54,6 @@ header h1 {
   background-color: rgba(245, 245, 245, 0.555);
   width: 100%;
   padding: 2em;
-}
-
-.btn {
-  background-color: var(--primaryColor);
-  border: 1px solid var(--textColor);
-  border-bottom-right-radius: 2em;
-  border-top-right-radius: 2em;
-  color: var(--textColor);
-}
-
-.btn:hover {
-  background-color: var(--textColor);
-  color: var(--primaryColor);
 }
 
 .c19-city-title {
