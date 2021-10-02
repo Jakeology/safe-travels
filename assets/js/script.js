@@ -1,10 +1,7 @@
 var bodyContainer = document.body;
 var cityNameInput = document.getElementById("city-input");
 
-var lat = 0;
-var lon = 0;
-
-var fips = 0;
+var countyData = {};
 
 const options = {
   fields: ["address_components", "geometry"],
@@ -21,29 +18,25 @@ autocomplete.addListener("place_changed", () => {
     return;
   }
 
-  lat = place.geometry.location.lat();
-  lon = place.geometry.location.lng();
-
-  //TODO Remove console logs
-  console.log(lat);
-  console.log(lon);
+  var lat = place.geometry.location.lat();
+  var lon = place.geometry.location.lng();
 
   if (place.address_components[3].short_name === "US") {
-    getCountyCovidData(lat, lon, displayCovidData);
+    getCountyData(lat, lon, getCovidData);
   } else {
     console.log("This is NOT in the US");
   }
 });
 
-function getCountyCovidData(lat, lon, callback) {
-  var apiUrl = "https://geo.fcc.gov/api/census/area?lat=" + lat + "&lon=" + lon +"&format=json";
+function getCountyData(lat, lon, callback) {
+  var apiUrl = "https://geo.fcc.gov/api/census/area?lat=" + lat + "&lon=" + lon + "&format=json";
 
   fetch(apiUrl)
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
-          fips = data.results[0].county_fips;
-          return callback(fips);
+          countyData = data;
+          return callback(data.results[0].county_fips);
         });
       } else {
         alert("Error");
@@ -54,22 +47,36 @@ function getCountyCovidData(lat, lon, callback) {
     });
 }
 
+function getCovidData() {
+
+  var apiUrl = "https://api.covidactnow.org/v2/county/" + countyData.results[0].county_fips + ".json?apiKey=a76656a67c614ecf8405967df3fded3f";
+
+  fetch(apiUrl)
+    .then(function (response) {
+      if (response.ok) {
+        response.json().then(function (data) {
+          console.log(data);
+        });
+      } else {
+        alert("Error");
+      }
+    })
+    .catch(function (error) {
+      alert("Unable to connect to API");
+    });
+
+}
+
 function displayCovidData() {
   console.log(fips);
 }
 
-function buttonClick(event) {
-  var target = event.target;
+// function buttonClick(event) {
+//   var target = event.target;
 
-  if (target.matches("#city-search")) {
-    // if(place) {
-    //   return console.log("Invalid");
-    // }
-    // let lat = place.geometry.location.lat();
-    // let long = place.geometry.location.lng();
-    // console.log(lat);
-    // console.log(long);
-  }
-}
+//   if (target.matches("#city-search")) {
 
-bodyContainer.addEventListener("click", buttonClick);
+//   }
+// }
+
+// bodyContainer.addEventListener("click", buttonClick);
