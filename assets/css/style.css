@@ -44,7 +44,9 @@ header h1 {
 
 .form-control {
   border-radius: 2em;
-  outline: none;
+  border-right: none;
+  text-align: center;
+  padding-left: 3em;
 }
 
 .covid-container {

@@ -21,10 +21,16 @@ autocomplete.addListener("place_changed", () => {
   var lat = place.geometry.location.lat();
   var lon = place.geometry.location.lng();
 
-  if (place.address_components[3].short_name === "US") {
-    getCountyData(lat, lon, getCovidData);
-  } else {
-    console.log("This is NOT in the US");
+  console.log(place);
+
+  for(var i = 0; i < place.address_components.length; i++) {
+    if (place.address_components[i].types[0] === "country") {
+      if (place.address_components[i].short_name === "US") {
+        getCountyData(lat, lon, getCovidData);
+      } else {
+        console.log("This is NOT in the US");
+      }
+    }
   }
 });
 
@@ -68,7 +74,8 @@ function getCovidData() {
 }
 
 function displayCovidData() {
-  console.log(fips);
+  var covidContainer = document.getElementById("covid-container");
+  
 }
 
 // function buttonClick(event) {
