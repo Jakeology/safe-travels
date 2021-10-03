@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Roboto&display=swap");
+
+:root {
+  --primaryColor: white;
+  --textColor: #88ca97;
+  --border-radius: 0.3rem;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+main {
+  font-family: "Roboto", sans-serif;
+}
+
+header h1 {
+  background-color: var(--primaryColor);
+  color: var(--textColor);
+  padding-top: 0.4em;
+  font-size: 4em;
+  text-align: center;
+  font-family: "Cinzel Decorative", cursive;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.search-container {
+  margin: 0 auto;
+  width: 20em;
+}
+
+.input-group-text {
+  border-bottom-right-radius: 2em;
+  border-top-right-radius: 2em;
+  color: var(--textColor);
+  background-color: white;
+}
+
+.form-control {
+  border-radius: 2em;
+  border-right: none;
+  text-align: center;
+  padding-left: 3em;
+}
+
+.covid-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: rgba(245, 245, 245, 0.555);
+  width: 100%;
+  padding: 2em;
+}
+
+.c19-city-title {
+  margin: 2em;
+}
+
+.c19-city-stats {
+  width: 50em;
+  background-color: white;
+  height: 250px;
+  border-radius: 0.3em;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.06);
+}
+
