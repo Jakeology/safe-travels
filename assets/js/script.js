@@ -1,10 +1,11 @@
 var bodyContainer = document.body;
 var cityNameInput = document.getElementById("city-input");
 
-var countyData = {};
+var cityData = {};
+var covidData = {};
 
 const options = {
-  fields: ["address_components", "geometry"],
+  fields: ["address_components", "formatted_address", "geometry"],
   strictBounds: false,
   types: ["(cities)"],
 };
@@ -18,12 +19,32 @@ autocomplete.addListener("place_changed", () => {
     return;
   }
 
+  storeCityData(place);
+});
+
+function storeCityData(place) {
   var lat = place.geometry.location.lat();
   var lon = place.geometry.location.lng();
 
-  console.log(place);
+  cityData["lat"] = lat;
+  cityData["lon"] = lon;
 
-  for(var i = 0; i < place.address_components.length; i++) {
+  for (var i = 0; i < place.address_components.length; i++) {
+    const type = place.address_components[i].types[0];
+    console.log(type);
+
+    switch (type) {
+      case "locality":
+        cityData["city"] = place.address_components[i].long_name;
+        break;
+      case "administrative_area_level_1":
+        cityData["state"] = place.address_components[i].short_name;
+        break;
+      case "administrative_area_level_2":
+        cityData["county_name"] = place.address_components[i].long_name;
+        break;
+    }
+
     if (place.address_components[i].types[0] === "country") {
       if (place.address_components[i].short_name === "US") {
         getCountyData(lat, lon, getCovidData);
@@ -32,7 +53,7 @@ autocomplete.addListener("place_changed", () => {
       }
     }
   }
-});
+}
 
 function getCountyData(lat, lon, callback) {
   var apiUrl = "https://geo.fcc.gov/api/census/area?lat=" + lat + "&lon=" + lon + "&format=json";
@@ -41,7 +62,8 @@ function getCountyData(lat, lon, callback) {
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
-          countyData = data;
+          cityData["county_id"] = data.results[0].county_fips;
+          console.log(cityData);
           return callback(data.results[0].county_fips);
         });
       } else {
@@ -54,14 +76,15 @@ function getCountyData(lat, lon, callback) {
 }
 
 function getCovidData() {
-
-  var apiUrl = "https://api.covidactnow.org/v2/county/" + countyData.results[0].county_fips + ".json?apiKey=a76656a67c614ecf8405967df3fded3f";
+  var apiUrl = "https://api.covidactnow.org/v2/county/" + cityData.county_id +".json?apiKey=a76656a67c614ecf8405967df3fded3f";
 
   fetch(apiUrl)
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
-          console.log(data);
+          covidData = data;
+          //console.log(data);
+          displayCovidData();
         });
       } else {
         alert("Error");
@@ -70,12 +93,12 @@ function getCovidData() {
     .catch(function (error) {
       alert("Unable to connect to API");
     });
-
 }
 
 function displayCovidData() {
-  var covidContainer = document.getElementById("covid-container");
-  
+  var c19Title = document.getElementById("c19-city-title");
+
+  c19Title.textContent = cityData.city + ", " + cityData.state;
 }
 
 // function buttonClick(event) {
