@@ -106,6 +106,8 @@ function displayCovidData() {
   var c19Title = document.getElementById("c19-city-title");
 
   c19Title.textContent = cityData.city + ", " + cityData.state;
+
+  $('#preloader').fadeOut("slow");
 }
 
 function getLatLon() {
@@ -119,3 +121,4 @@ function getLatLon() {
 }
 
 getLatLon();
+

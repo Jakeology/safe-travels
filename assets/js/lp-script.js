@@ -16,7 +16,6 @@ autocomplete.addListener("place_changed", () => {
   }
   var lat = place.geometry.location.lat();
   var lon = place.geometry.location.lng();
-  //console.log(place);
 
   location.href = "./results.html?lat=" + lat.toFixed(8) + "&lon=" + lon.toFixed(8);
 

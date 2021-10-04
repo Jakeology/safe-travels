@@ -24,6 +24,10 @@ header h1 {
   font-family: "Cinzel Decorative", cursive;
 }
 
+a {
+  text-decoration: none;
+}
+
 .content {
   display: flex;
   flex-wrap: wrap;
@@ -69,4 +73,3 @@ header h1 {
   border-radius: 0.3em;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.06);
 }
-
