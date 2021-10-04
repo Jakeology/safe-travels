@@ -112,17 +112,17 @@ function displayCovidData() {
 
   var riskResultDivEl = document.createElement("div");
   var riskResultSpanEl = document.createElement("span");
-  
-  if(covidData.riskLevels.overall < 1) {
+
+  if (covidData.riskLevels.overall < 1) {
     riskResultDivEl.className = "risk-result low";
     riskResultSpanEl.textContent = "LOW";
-  } else if(covidData.riskLevels.overall >= 1 && covidData.riskLevels.overall < 2) {
+  } else if (covidData.riskLevels.overall >= 1 && covidData.riskLevels.overall < 2) {
     riskResultDivEl.className = "risk-result medium";
     riskResultSpanEl.textContent = "MEDIUM";
-  } else if(covidData.riskLevels.overall >= 2 && covidData.riskLevels.overall < 3) {
+  } else if (covidData.riskLevels.overall >= 2 && covidData.riskLevels.overall < 3) {
     riskResultDivEl.className = "risk-result high";
     riskResultSpanEl.textContent = "HIGH";
-  } else if(covidData.riskLevels.overall >= 3 && covidData.riskLevels.overall < 4) {
+  } else if (covidData.riskLevels.overall >= 3 && covidData.riskLevels.overall < 4) {
     riskResultDivEl.className = "risk-result very-high";
     riskResultSpanEl.textContent = "VERY HIGH";
   } else {
@@ -133,10 +133,14 @@ function displayCovidData() {
   riskLevel.appendChild(riskResultDivEl);
   riskLevel.appendChild(riskResultSpanEl);
 
+  var vaccineProgress1D = covidData.metrics.vaccinationsInitiatedRatio * 100;
+  var vaccineProgress2D = covidData.metrics.vaccinationsCompletedRatio * 100;
 
-  var vaccineProgress = covidData.metrics.vaccinationsInitiatedRatio * 100;
+  var VR1D = new ldBar("#PB-VR-1D");
+  VR1D.set(vaccineProgress1D, false);
 
-  $('#PB-VR').css('width', vaccineProgress + '%');
+  var VR2D = new ldBar("#PB-VR-2D");
+  VR2D.set(vaccineProgress2D, false);
 
   //$('#preloader').fadeOut("slow");
 }
@@ -152,4 +156,3 @@ function getLatLon() {
 }
 
 getLatLon();
-

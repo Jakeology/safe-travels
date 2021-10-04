@@ -78,7 +78,7 @@ a {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.06);
 }
 
-.top-row{
+.top-row {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -90,7 +90,6 @@ a {
 }
 
 .vaccine-rate {
-  width: 15em;
   margin: 2em 5em 2em 0;
 }
 
@@ -108,7 +107,7 @@ a {
   height: 14px;
 }
 
-.low{
+.low {
   background-color: rgb(146, 199, 0);
   border-bottom-right-radius: 25px;
   border-bottom-left-radius: 25px;
@@ -132,13 +131,26 @@ a {
   border-top-left-radius: 25px;
 }
 
+.vaccine-1d,
+.vaccine-2d {
+  font-size: 10px;
+  padding-left: 35px;
+  color: #a1a1a1;
+}
+
+.progress-bars {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 .risk-result {
-  width:10px;
-  height:10px;
-  border-radius:50px;
-  font-size:20px;
-  color:#fff;
-  line-height:100px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50px;
+  font-size: 20px;
+  color: #fff;
+  line-height: 100px;
   display: inline-block;
   margin-right: 10px;
 }
