@@ -4,24 +4,6 @@ var cityNameInput = document.getElementById("city-input");
 var cityData = {};
 var covidData = {};
 
-// const options = {
-//   fields: ["address_components", "formatted_address", "geometry"],
-//   strictBounds: false,
-//   types: ["(cities)"],
-// };
-
-// const autocomplete = new google.maps.places.Autocomplete(cityNameInput, options);
-
-// autocomplete.addListener("place_changed", () => {
-//   const place = autocomplete.getPlace();
-
-//   if (!place.geometry || !place.geometry.location) {
-//     return;
-//   }
-
-//   storeCityData(place);
-// });
-
 function getCityData(lat, lon) {
   var apiUrl =
     "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
@@ -137,13 +119,3 @@ function getLatLon() {
 }
 
 getLatLon();
-
-// function buttonClick(event) {
-//   var target = event.target;
-
-//   if (target.matches("#city-search")) {
-
-//   }
-// }
-
-// bodyContainer.addEventListener("click", buttonClick);
