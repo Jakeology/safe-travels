@@ -24,19 +24,25 @@
     </header>
 
     <main>
-
       <div class="content">
         <div class="covid-container">
           <div class="covid-info">
-            <div class="c19-city-title" id="c19-city-title"></div>
-            <div class="c19-city-stats">
-              <div class="risk-level"></div>
-              <div class="daily-cases"></div>
+            <div class="covid-city-title" id="c19-CT"></div>
+            <div class="covid-city-results" id="c19-CR">
+              <div class="top-row">
+                <div class="risk-level" id="c19-RL">
+                </div>
+                <div class="vaccine-rate" id="c19-VR">
+                  <h6 class="text-center">Vaccination Progress</h6>
+                  <div class="progress" style="height: 20px">
+                    <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      
     </main>
 
     <script src="https://unpkg.com/@popperjs/core@2"></script>

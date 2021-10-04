@@ -69,7 +69,7 @@ function getCountyData(lat, lon, callback) {
       if (response.ok) {
         response.json().then(function (data) {
           cityData["county_id"] = data.results[0].county_fips;
-          console.log(cityData);
+          // console.log(cityData);
           return callback(data.results[0].county_fips);
         });
       } else {
@@ -90,7 +90,7 @@ function getCovidData() {
       if (response.ok) {
         response.json().then(function (data) {
           covidData = data;
-          //console.log(data);
+          console.log(data);
           displayCovidData();
         });
       } else {
@@ -103,11 +103,21 @@ function getCovidData() {
 }
 
 function displayCovidData() {
-  var c19Title = document.getElementById("c19-city-title");
+  var cityTitle = document.getElementById("c19-CT");
 
-  c19Title.textContent = cityData.city + ", " + cityData.state;
+  var cityResultsContainer = document.getElementById("c19-CR");
 
-  $('#preloader').fadeOut("slow");
+  cityTitle.textContent = cityData.city + ", " + cityData.state + " (" + cityData.county_name + ")";
+
+  var riskLevel = document.getElementById("c19-RL");
+
+  riskLevel.textContent = "Very High";
+
+  var vaccineProgress = covidData.metrics.vaccinationsInitiatedRatio * 100;
+
+  $('.progress-bar').css('width', vaccineProgress + '%');
+
+  //$('#preloader').fadeOut("slow");
 }
 
 function getLatLon() {

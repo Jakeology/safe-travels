@@ -62,14 +62,29 @@ a {
   padding: 2em;
 }
 
-.c19-city-title {
+.covid-city-title {
   margin: 2em;
 }
 
-.c19-city-stats {
+.covid-city-results {
   width: 50em;
   background-color: white;
   height: 250px;
   border-radius: 0.3em;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.06);
+}
+
+.top-row{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.risk-level {
+  margin: 2em 0 2em 5em;
+}
+
+.vaccine-rate {
+  width: 15em;
+  margin: 2em 5em 2em 0;
 }
