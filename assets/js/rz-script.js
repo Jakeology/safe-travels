@@ -113,22 +113,10 @@ function displayCovidData() {
   var riskResultDivEl = document.createElement("div");
   var riskResultSpanEl = document.createElement("span");
 
-  if (covidData.riskLevels.overall < 1) {
-    riskResultDivEl.className = "risk-result low";
-    riskResultSpanEl.textContent = "LOW";
-  } else if (covidData.riskLevels.overall >= 1 && covidData.riskLevels.overall < 2) {
-    riskResultDivEl.className = "risk-result medium";
-    riskResultSpanEl.textContent = "MEDIUM";
-  } else if (covidData.riskLevels.overall >= 2 && covidData.riskLevels.overall < 3) {
-    riskResultDivEl.className = "risk-result high";
-    riskResultSpanEl.textContent = "HIGH";
-  } else if (covidData.riskLevels.overall >= 3 && covidData.riskLevels.overall < 4) {
-    riskResultDivEl.className = "risk-result very-high";
-    riskResultSpanEl.textContent = "VERY HIGH";
-  } else {
-    riskResultDivEl.className = "risk-result severe";
-    riskResultSpanEl.textContent = "SEVERE";
-  }
+  var getRiskLevel = getRiskResult("RL", covidData.riskLevels.overall);
+
+  riskResultDivEl.className = "risk-result " + getRiskLevel;
+  riskResultSpanEl.textContent = getRiskLevel.toUpperCase();
 
   riskLevel.appendChild(riskResultDivEl);
   riskLevel.appendChild(riskResultSpanEl);
@@ -142,7 +130,114 @@ function displayCovidData() {
   var VR2D = new ldBar("#PB-VR-2D");
   VR2D.set(vaccineProgress2D, false);
 
-  //$('#preloader').fadeOut("slow");
+  var dailyCasesCont = document.getElementById("DC");
+
+  var dcDiv = document.createElement("div");
+  var dcSpan = document.createElement("span");
+  var dcSpan2 = document.createElement("span");
+
+  var getDailyCaseLevel = getRiskResult("DC", covidData.metrics.caseDensity);
+
+  dcDiv.className = "risk-result " + getDailyCaseLevel;
+  dcSpan.className = "bold";
+  dcSpan.textContent = covidData.metrics.caseDensity;
+  dcSpan2.className = "small";
+  dcSpan2.textContent = " per 100K";
+
+  dailyCasesCont.appendChild(dcDiv);
+  dailyCasesCont.appendChild(dcSpan);
+  dailyCasesCont.appendChild(dcSpan2);
+
+  var infectionRateEl = document.getElementById("IR");
+
+  var irDiv = document.createElement("div");
+  var irSpan = document.createElement("span");
+
+  var getInfectinRateLevel = getRiskResult("IR", covidData.metrics.infectionRate);
+
+  irDiv.className = "risk-result " + getInfectinRateLevel;
+  irSpan.className = "bold";
+  irSpan.textContent = covidData.metrics.infectionRate + "%";
+
+  infectionRateEl.appendChild(irDiv);
+  infectionRateEl.appendChild(irSpan);
+
+  var positiveRateEl = document.getElementById("PT");
+
+  var ptDiv = document.createElement("div");
+  var ptSpan = document.createElement("span");
+
+  var getPositiveTestNum = covidData.metrics.testPositivityRatio * 100;
+
+  var getPositiveTestLevel = getRiskResult("PT", getPositiveTestNum);
+
+  ptDiv.className = "risk-result " + getPositiveTestLevel;
+  ptSpan.className = "bold";
+  ptSpan.textContent = getPositiveTestNum + "%";
+
+  positiveRateEl.appendChild(ptDiv);
+  positiveRateEl.appendChild(ptSpan);
+  
+
+  $("#preloader").fadeOut("slow");
+}
+
+function getRiskResult(type, num) {
+  if (type === "RL") {
+    if (num < 1) {
+      return "low";
+    } else if (num >= 1 && num < 2) {
+      return "medium";
+    } else if (num >= 2 && num < 3) {
+      return "high";
+    } else if (num >= 3 && num < 4) {
+      return "critical";
+    } else {
+      return "severe";
+    }
+  }
+
+  if (type === "DC") {
+    if (num < 1) {
+      return "low";
+    } else if (num >= 1 && num < 10) {
+      return "medium";
+    } else if (num >= 10 && num < 25) {
+      return "high";
+    } else if (num >= 25 && num < 75) {
+      return "critical";
+    } else {
+      return "severe";
+    }
+  }
+
+  if (type === "IR") {
+    if (num < 0.9) {
+      return "low";
+    } else if (num >= 0.9 && num < 1.1) {
+      return "medium";
+    } else if (num >= 1.1 && num < 1.4) {
+      return "high";
+    } else if (num >= 1.4 && num < 1.7) {
+      return "critical";
+    } else {
+      return "severe";
+    }
+  }
+
+  if (type === "PT") {
+    if (num < 3) {
+      return "low";
+    } else if (num >= 3 && num < 10) {
+      return "medium";
+    } else if (num >= 10 && num < 20) {
+      return "high";
+    } else if (num >= 20 && num < 25) {
+      return "critical";
+    } else {
+      return "severe";
+    }
+  }
 }
 
 function getLatLon() {
