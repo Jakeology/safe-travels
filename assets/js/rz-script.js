@@ -1,5 +1,6 @@
 var bodyContainer = document.body;
 var cityNameInput = document.getElementById("city-input");
+var cityResultsContainer = document.getElementById("c19-CR");
 
 var cityData = {};
 var covidData = {};
@@ -105,17 +106,37 @@ function getCovidData() {
 function displayCovidData() {
   var cityTitle = document.getElementById("c19-CT");
 
-  var cityResultsContainer = document.getElementById("c19-CR");
-
   cityTitle.textContent = cityData.city + ", " + cityData.state + " (" + cityData.county_name + ")";
 
   var riskLevel = document.getElementById("c19-RL");
 
-  riskLevel.textContent = "Very High";
+  var riskResultDivEl = document.createElement("div");
+  var riskResultSpanEl = document.createElement("span");
+  
+  if(covidData.riskLevels.overall < 1) {
+    riskResultDivEl.className = "risk-result low";
+    riskResultSpanEl.textContent = "LOW";
+  } else if(covidData.riskLevels.overall >= 1 && covidData.riskLevels.overall < 2) {
+    riskResultDivEl.className = "risk-result medium";
+    riskResultSpanEl.textContent = "MEDIUM";
+  } else if(covidData.riskLevels.overall >= 2 && covidData.riskLevels.overall < 3) {
+    riskResultDivEl.className = "risk-result high";
+    riskResultSpanEl.textContent = "HIGH";
+  } else if(covidData.riskLevels.overall >= 3 && covidData.riskLevels.overall < 4) {
+    riskResultDivEl.className = "risk-result very-high";
+    riskResultSpanEl.textContent = "VERY HIGH";
+  } else {
+    riskResultDivEl.className = "risk-result severe";
+    riskResultSpanEl.textContent = "SEVERE";
+  }
+
+  riskLevel.appendChild(riskResultDivEl);
+  riskLevel.appendChild(riskResultSpanEl);
+
 
   var vaccineProgress = covidData.metrics.vaccinationsInitiatedRatio * 100;
 
-  $('.progress-bar').css('width', vaccineProgress + '%');
+  $('#PB-VR').css('width', vaccineProgress + '%');
 
   //$('#preloader').fadeOut("slow");
 }

@@ -30,12 +30,25 @@
             <div class="covid-city-title" id="c19-CT"></div>
             <div class="covid-city-results" id="c19-CR">
               <div class="top-row">
-                <div class="risk-level" id="c19-RL">
+                <div class="risk-level">
+                  <div class="key">
+                    <div class="risk-key severe"></div>
+                    <div class="risk-key very-high"></div>
+                    <div class="risk-key high"></div>
+                    <div class="risk-key medium"></div>
+                    <div class="risk-key low"></div>
+                  </div>
+
+                  <div class="risk-level-result" id="c19-RL">
+                    <div class="risk-title">
+                      <h6>Risk Level</h6>
+                    </div>
+                  </div>
                 </div>
                 <div class="vaccine-rate" id="c19-VR">
-                  <h6 class="text-center">Vaccination Progress</h6>
+                  <h5 class="text-center">Vaccination Progress</h5>
                   <div class="progress" style="height: 20px">
-                    <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                    <div class="progress-bar" id="PB-VR" role="progressbar" style="width: 0%"></div>
                   </div>
                 </div>
               </div>
