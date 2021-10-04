@@ -23,3 +23,22 @@ header h1 {
   text-align: center;
   font-family: "Cinzel Decorative", cursive;
 }
+
+.search-container {
+  width: 20em;
+  margin: 5em;
+}
+
+.input-group-text {
+  border-bottom-right-radius: 2em;
+  border-top-right-radius: 2em;
+  color: var(--textColor);
+  background-color: white;
+}
+
+.form-control {
+  border-radius: 2em;
+  border-right: none;
+  text-align: center;
+  padding-left: 3em;
+}
