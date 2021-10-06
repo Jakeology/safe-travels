@@ -6,7 +6,7 @@ var cityData = {};
 var covidData = {};
 
 function getCityData(lat, lon) {
-  var apiUrl =
+  const apiUrl =
     "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
     lat +
     "," +
@@ -63,7 +63,7 @@ function storeCityData(lat, lon, data) {
 }
 
 function getCountyData(lat, lon, callback) {
-  var apiUrl = "https://geo.fcc.gov/api/census/area?lat=" + lat + "&lon=" + lon + "&format=json";
+  const apiUrl = "https://geo.fcc.gov/api/census/area?lat=" + lat + "&lon=" + lon + "&format=json";
 
   fetch(apiUrl)
     .then(function (response) {
@@ -83,7 +83,7 @@ function getCountyData(lat, lon, callback) {
 }
 
 function getCovidData() {
-  var apiUrl =
+  const apiUrl =
     "https://api.covidactnow.org/v2/county/" + cityData.county_id + ".json?apiKey=a76656a67c614ecf8405967df3fded3f";
 
   fetch(apiUrl)
@@ -248,5 +248,15 @@ function getLatLon() {
 
   getCityData(lat, lon);
 }
+
+$(window).on('resize', function() {
+  if($(window).width() > 400) {
+      $('#t1').addClass('d-none');
+      $('#t2').removeClass('d-none');
+  } else {
+      $('#t2').addClass('d-none');
+      $('#t1').removeClass('d-none');
+  }
+})
 
 getLatLon();
