@@ -30,50 +30,57 @@
           <span class="loader"><span class="loader-inner"></span></span>
         </div>
       </div>
-      <div class="content">
-        <div class="covid-container">
-          <div class="covid-info">
+      <div class="container-xxl">
+        <div class="m-1 row d-flex justify-content-center">
+          <div class="col-12 col-md-10">
             <div class="covid-city-title" id="c19-CT"></div>
-            <div class="covid-city-results" id="c19-CR">
-              <div class="top-row">
-                <div class="risk-level">
-                  <div class="key">
-                    <div class="risk-key severe"></div>
-                    <div class="risk-key critical"></div>
-                    <div class="risk-key high"></div>
-                    <div class="risk-key medium"></div>
-                    <div class="risk-key low"></div>
-                  </div>
+            <div class="card">
+              <div class="card-body" id="t1">
+                <div class="top-row">
+                  <div class="risk-level">
+                    <div class="key">
+                      <div class="risk-key severe"></div>
+                      <div class="risk-key critical"></div>
+                      <div class="risk-key high"></div>
+                      <div class="risk-key medium"></div>
+                      <div class="risk-key low"></div>
+                    </div>
 
-                  <div class="risk-level-result" id="c19-RL">
-                    <div class="risk-title">
-                      <h6>Risk Level</h6>
+                    <div class="risk-level-result" id="c19-RL">
+                      <div class="risk-title">
+                        <h6>Risk Level</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="vaccine-rate" id="c19-VR">
+                    <h5 class="text-center">Vaccination Progress</h5>
+                    <div class="progress-bars">
+                      <div class="ldBar label-center" data-unit="%" data-preset="fan" data-value="0" id="PB-VR-1D"></div>
+                      <div class="ldBar label-center" data-unit="%" data-preset="fan" data-value="0" id="PB-VR-2D"></div>
+                    </div>
+                    <span class="vaccine-1d">1 dose</span>
+                    <span class="vaccine-2d">Fully Vaccinated</span>
+                  </div>
+                </div>
+                <div class="bottom-row">
+                  <div class="other-results">
+                    <div class="daily-new-cases" id="DC">
+                      <h5>Daily new cases</h5>
+                    </div>
+                    <div class="infection-rates" id="IR">
+                      <h5>Infection rate</h5>
+                    </div>
+                    <div div class="positive-test-rates" id="PT">
+                      <h5>Positive test rate</h5>
                     </div>
                   </div>
                 </div>
-                <div class="vaccine-rate" id="c19-VR">
-                  <h5 class="text-center">Vaccination Progress</h5>
-                  <div class="progress-bars">
-                    <div class="ldBar label-center" data-unit="%" data-preset="fan" data-value="0" id="PB-VR-1D"></div>
-                    <div class="ldBar label-center" data-unit="%" data-preset="fan" data-value="0" id="PB-VR-2D"></div>
-                  </div>
-                  <span class="vaccine-1d">1 dose</span>
-                  <span class="vaccine-2d">Fully Vaccinated</span>
-                </div>
               </div>
-              <div class="bottom-row">
-                <div class="other-results">
-                  <div class="daily-new-cases" id="DC">
-                    <h5>Daily new cases</h5>
-                  </div>
-                  <div class="infection-rates" id="IR">
-                    <h5>Infection rate</h5>
-                  </div>
-                  <div div class="positive-test-rates" id="PT">
-                    <h5>Positive test rate</h5>
-                  </div>
-                </div>
-              </div>
+              <ul class="list-group list-group-flush d-none" id="t2">
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+              </ul>
             </div>
           </div>
         </div>

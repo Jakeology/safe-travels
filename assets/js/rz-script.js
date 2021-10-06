@@ -177,7 +177,6 @@ function displayCovidData() {
 
   positiveRateEl.appendChild(ptDiv);
   positiveRateEl.appendChild(ptSpan);
-  
 
   $("#preloader").fadeOut("slow");
 }
