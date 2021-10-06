@@ -125,10 +125,10 @@ function displayCovidData() {
   var vaccineProgress2D = covidData.metrics.vaccinationsCompletedRatio * 100;
 
   var VR1D = new ldBar("#PB-VR-1D");
-  VR1D.set(vaccineProgress1D, false);
+  VR1D.set(Math.round(vaccineProgress1D * 10) / 10, false);
 
   var VR2D = new ldBar("#PB-VR-2D");
-  VR2D.set(vaccineProgress2D, false);
+  VR2D.set(Math.round(vaccineProgress2D * 10) / 10, false);
 
   var dailyCasesCont = document.getElementById("DC");
 
