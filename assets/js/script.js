@@ -5,6 +5,27 @@ var cityResultsContainer = document.getElementById("c19-CR");
 var cityData = {};
 var covidData = {};
 
+const options = {
+  fields: ["geometry"],
+  strictBounds: false,
+  types: ["(cities)"],
+};
+
+const autocomplete = new google.maps.places.Autocomplete(cityNameInput, options);
+
+autocomplete.addListener("place_changed", () => {
+  const place = autocomplete.getPlace();
+
+  if (!place.geometry || !place.geometry.location) {
+    return;
+  }
+  var lat = place.geometry.location.lat();
+  var lon = place.geometry.location.lng();
+
+  //location.href = "./results.html?lat=" + lat.toFixed(8) + "&lon=" + lon.toFixed(8);
+  getCityData(lat, lon);
+});
+
 function getCityData(lat, lon) {
   const apiUrl =
     "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
@@ -250,7 +271,7 @@ function getLatLon() {
 }
 
 $(window).on('resize', function() {
-  if($(window).width() > 400) {
+  if($(window).width() <= 767) {
       $('#t1').addClass('d-none');
       $('#t2').removeClass('d-none');
   } else {
@@ -259,4 +280,4 @@ $(window).on('resize', function() {
   }
 })
 
-getLatLon();
+//getLatLon();
