@@ -4,25 +4,84 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="./assets/css/lp-style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/css/loading-bar/loading-bar.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
 
-    <title>SafeTravel - Home page</title>
+    <title>SafeTravel - City Results</title>
   </head>
-
   <body>
     <header>
-      <h1>Safe Travels</h1>
+      <a href="./index.html"><h1>Safe Travels</h1></a>
+      <div class="search-container">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Search by City, State" id="city-input" />
+          <div class="input-group-append">
+            <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></span>
+          </div>
+        </div>
+      </div>
     </header>
 
     <main>
-      <div class="search-container">
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Search by City, State" id="city-input">
-          <div class="input-group-append">
-            <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></span>
+      <!-- <div id="preloader">
+        <div class="spinner">
+          <span class="loader"><span class="loader-inner"></span></span>
+        </div>
+      </div> -->
+      <div class="container-xxl">
+        <div class="m-1 row d-flex justify-content-center">
+          <div class="col-12 col-md-10">
+            <div class="covid-city-title" id="c19-CT"></div>
+            <div class="card">
+              <div class="card-body" id="t1">
+                <div class="top-row">
+                  <div class="risk-level">
+                    <div class="key">
+                      <div class="risk-key severe"></div>
+                      <div class="risk-key critical"></div>
+                      <div class="risk-key high"></div>
+                      <div class="risk-key medium"></div>
+                      <div class="risk-key low"></div>
+                    </div>
+
+                    <div class="risk-level-result" id="c19-RL">
+                      <div class="risk-title">
+                        <h6>Risk Level</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="vaccine-rate" id="c19-VR">
+                    <h5 class="text-center">Vaccination Progress</h5>
+                    <div class="progress-bars">
+                      <div class="ldBar label-center" data-unit="%" data-preset="fan" data-value="0" id="PB-VR-1D"></div>
+                      <div class="ldBar label-center" data-unit="%" data-preset="fan" data-value="0" id="PB-VR-2D"></div>
+                    </div>
+                    <span class="vaccine-1d">1 dose</span>
+                    <span class="vaccine-2d">Fully Vaccinated</span>
+                  </div>
+                </div>
+                <div class="bottom-row">
+                  <div class="other-results">
+                    <div class="daily-new-cases" id="DC">
+                      <h5>Daily new cases</h5>
+                    </div>
+                    <div class="infection-rates" id="IR">
+                      <h5>Infection rate</h5>
+                    </div>
+                    <div div class="positive-test-rates" id="PT">
+                      <h5>Positive test rate</h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <ul class="list-group list-group-flush d-none" id="t2">
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -33,6 +92,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1I-mViDpNAowaTQE5sr3IrZeILM5esfw&libraries=places"></script>
-    <script src="./assets/js/lp-script.js"></script>
+    <script type="text/javascript" src="./assets/js/loading-bar/loading-bar.js"></script>
+    <script type="text/javascript" src="./assets/js/script.js"></script>
   </body>
 </html>
+

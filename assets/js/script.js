@@ -5,8 +5,29 @@ var cityResultsContainer = document.getElementById("c19-CR");
 var cityData = {};
 var covidData = {};
 
+const options = {
+  fields: ["geometry"],
+  strictBounds: false,
+  types: ["(cities)"],
+};
+
+const autocomplete = new google.maps.places.Autocomplete(cityNameInput, options);
+
+autocomplete.addListener("place_changed", () => {
+  const place = autocomplete.getPlace();
+
+  if (!place.geometry || !place.geometry.location) {
+    return;
+  }
+  var lat = place.geometry.location.lat();
+  var lon = place.geometry.location.lng();
+
+  //location.href = "./results.html?lat=" + lat.toFixed(8) + "&lon=" + lon.toFixed(8);
+  getCityData(lat, lon);
+});
+
 function getCityData(lat, lon) {
-  var apiUrl =
+  const apiUrl =
     "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
     lat +
     "," +
@@ -63,7 +84,7 @@ function storeCityData(lat, lon, data) {
 }
 
 function getCountyData(lat, lon, callback) {
-  var apiUrl = "https://geo.fcc.gov/api/census/area?lat=" + lat + "&lon=" + lon + "&format=json";
+  const apiUrl = "https://geo.fcc.gov/api/census/area?lat=" + lat + "&lon=" + lon + "&format=json";
 
   fetch(apiUrl)
     .then(function (response) {
@@ -83,7 +104,7 @@ function getCountyData(lat, lon, callback) {
 }
 
 function getCovidData() {
-  var apiUrl =
+  const apiUrl =
     "https://api.covidactnow.org/v2/county/" + cityData.county_id + ".json?apiKey=a76656a67c614ecf8405967df3fded3f";
 
   fetch(apiUrl)
@@ -125,10 +146,10 @@ function displayCovidData() {
   var vaccineProgress2D = covidData.metrics.vaccinationsCompletedRatio * 100;
 
   var VR1D = new ldBar("#PB-VR-1D");
-  VR1D.set(vaccineProgress1D, false);
+  VR1D.set(Math.round(vaccineProgress1D * 10) / 10, false);
 
   var VR2D = new ldBar("#PB-VR-2D");
-  VR2D.set(vaccineProgress2D, false);
+  VR2D.set(Math.round(vaccineProgress2D * 10) / 10, false);
 
   var dailyCasesCont = document.getElementById("DC");
 
@@ -177,7 +198,6 @@ function displayCovidData() {
 
   positiveRateEl.appendChild(ptDiv);
   positiveRateEl.appendChild(ptSpan);
-  
 
   $("#preloader").fadeOut("slow");
 }
@@ -250,4 +270,14 @@ function getLatLon() {
   getCityData(lat, lon);
 }
 
-getLatLon();
+$(window).on('resize', function() {
+  if($(window).width() <= 767) {
+      $('#t1').addClass('d-none');
+      $('#t2').removeClass('d-none');
+  } else {
+      $('#t2').addClass('d-none');
+      $('#t1').removeClass('d-none');
+  }
+})
+
+//getLatLon();
