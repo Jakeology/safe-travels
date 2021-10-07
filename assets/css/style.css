@@ -24,9 +24,28 @@ header h1 {
   font-family: "Cinzel Decorative", cursive;
   font-weight: 900;
 }
+header {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.06);
+}
 
 a {
   text-decoration: none;
+}
+
+.card-header {
+  height: 50px;
+  background-color: white;
+  border: none;
+}
+
+.card-body {
+  border: 1px solid rgb(228, 228, 228);
+  border-radius: 1em;
+}
+
+.card{
+  margin-top: 3em;
+  border: none;
 }
 
 .content {
@@ -35,9 +54,10 @@ a {
   justify-content: center;
 }
 
-.search-container {
+.search-bar {
   margin: 0 auto;
   width: 20em;
+  padding-bottom: 10px;
 }
 
 .input-group-text {
@@ -52,31 +72,6 @@ a {
   border-right: none;
   text-align: center;
   padding-left: 3em;
-}
-
-.covid-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  background-color: rgba(245, 245, 245, 0.555);
-  width: 100%;
-  padding: 2em;
-}
-
-.covid-info {
-  font-size: 20px;
-}
-
-.covid-city-title {
-  margin: 2em;
-}
-
-.covid-city-results {
-  width: 50em;
-  background-color: white;
-  height: 250px;
-  border-radius: 0.3em;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.06);
 }
 
 .top-row {
@@ -175,74 +170,4 @@ a {
 
 .bold {
   font-weight: 900;
-}
-
-#preloader {
-  overflow: hidden;
-  background: rgb(255, 255, 255);
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  position: fixed;
-  z-index: 9999;
-}
-.spinner {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.loader {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  position: relative;
-  border: 4px solid var(--textColor);
-  top: 50%;
-  animation: loader 2s infinite ease;
-}
-.loader-inner {
-  vertical-align: top;
-  display: inline-block;
-  width: 100%;
-  background-color: var(--textColor);
-  animation: loader-inner 2s infinite ease-in;
-}
-@keyframes loader {
-  0% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(180deg);
-  }
-  50% {
-    transform: rotate(180deg);
-  }
-  75% {
-    transform: rotate(360deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-@keyframes loader-inner {
-  0% {
-    height: 0%;
-  }
-  25% {
-    height: 0%;
-  }
-  50% {
-    height: 100%;
-  }
-  75% {
-    height: 100%;
-  }
-  100% {
-    height: 0%;
-  }
 }
