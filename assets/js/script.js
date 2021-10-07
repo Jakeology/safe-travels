@@ -140,6 +140,7 @@ function displayCovidData() {
 
   riskResultDivEl.className = "risk-result " + getRiskLevel;
   riskResultSpanEl.textContent = getRiskLevel.toUpperCase();
+  riskResultSpanEl.className = "bold";
 
   riskLevel.appendChild(riskResultDivEl);
   riskLevel.appendChild(riskResultSpanEl);
@@ -288,17 +289,20 @@ function setElements() {
   }
   if ($(window).width() <= 686) {
     $(".other-results").removeClass("d-flex");
-    $(".top-row").removeClass("d-flex justify-content-between").addClass("d- block justify-content-center");
   } else {
     $(".other-results").addClass("d-flex");
+  }
+  if ($(window).width() <= 536) {
+    $(".top-row").removeClass("d-flex justify-content-between").addClass("d- block justify-content-center");
+  } else {
     $(".top-row").addClass("d-flex justify-content-between").removeClass("d-block justify-content-center");
   }
 }
 
-
-
 $(window).on("resize", function () {
   setElements();
 });
+
+setElements();
 
 //getLatLon();

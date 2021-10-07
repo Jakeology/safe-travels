@@ -91,12 +91,13 @@ a {
 
 .risk-level {
   display: flex;
-  margin: 2em 0 2em 3em;
+  justify-content: center;
+  margin: 2.5em 0 2em 2em;
 }
 
 .vaccine-rate {
   text-align: center;
-  margin: 2em 5em 0.5em 0;
+  margin: 2em 3em 0.5em 0;
 }
 
 .risk-level-result {
@@ -118,8 +119,6 @@ a {
   height: 10px;
   border-radius: 50px;
   font-size: 20px;
-  color: #fff;
-  line-height: 100px;
   display: inline-block;
   margin-right: 10px;
 }
@@ -199,8 +198,14 @@ a {
     padding-left: 0;
   }
 
+  .covid-city-title {
+    text-align: center;
+  }
+
+}
+
+@media screen and (max-width: 536px) {
   .vaccine-rate {
     margin: 0;
   }
-
 }
