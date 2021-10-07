@@ -278,14 +278,27 @@ function getLatLon() {
   getCityData(lat, lon);
 }
 
-$(window).on('resize', function() {
-  if($(window).width() <= 767) {
-      $('#t1').addClass('d-none');
-      $('#t2').removeClass('d-none');
+function setElements() {
+  if ($(window).width() <= 991) {
+    $("#x1").addClass("d-none");
+    $("#x2").removeClass("d-none");
   } else {
-      $('#t2').addClass('d-none');
-      $('#t1').removeClass('d-none');
+    $("#x2").addClass("d-none");
+    $("#x1").removeClass("d-none");
   }
-})
+  if ($(window).width() <= 686) {
+    $(".other-results").removeClass("d-flex");
+    $(".top-row").removeClass("d-flex justify-content-between").addClass("d- block justify-content-center");
+  } else {
+    $(".other-results").addClass("d-flex");
+    $(".top-row").addClass("d-flex justify-content-between").removeClass("d-block justify-content-center");
+  }
+}
+
+
+
+$(window).on("resize", function () {
+  setElements();
+});
 
 //getLatLon();

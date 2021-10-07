@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Roboto:wght@100;300;400;500;700;900&display=swap");
 
 :root {
   --primaryColor: white;
@@ -43,9 +43,20 @@ a {
   border-radius: 1em;
 }
 
-.card{
-  margin-top: 3em;
+.card {
   border: none;
+}
+
+.risk-card-margin {
+  margin-top: 3em;
+}
+
+.pop-card-margin {
+  margin-top: 6em;
+}
+
+.hos-card-margin {
+  margin-top: 10px;
 }
 
 .content {
@@ -75,9 +86,7 @@ a {
 }
 
 .top-row {
-  display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
 }
 
 .risk-level {
@@ -86,6 +95,7 @@ a {
 }
 
 .vaccine-rate {
+  text-align: center;
   margin: 2em 5em 0.5em 0;
 }
 
@@ -141,8 +151,12 @@ a {
 .vaccine-1d,
 .vaccine-2d {
   font-size: 10px;
-  padding-left: 35px;
+  padding-left: 25px;
   color: #a1a1a1;
+}
+
+.vaccine-2d {
+  padding-left: 35px;
 }
 
 .progress-bars {
@@ -151,23 +165,42 @@ a {
   flex-wrap: wrap;
 }
 
-.other-results {
-  display: flex;
-}
-
 .daily-new-cases,
 .infection-rates,
 .positive-test-rates {
   display: block;
   text-align: center;
-  padding-left: 4.25em;
+  padding-left: 3em;
 }
 
-.small{
+.small {
   font-size: 12px;
   font-weight: bold;
 }
 
 .bold {
   font-weight: 900;
+}
+
+@media screen and (max-width: 991px) {
+  .pop-card-margin {
+    margin-top: 1em;
+  }
+}
+
+@media screen and (max-width: 686px) {
+  .other-results {
+    margin-top: 1em;
+  }
+
+  .daily-new-cases,
+  .infection-rates,
+  .positive-test-rates {
+    padding-left: 0;
+  }
+
+  .vaccine-rate {
+    margin: 0;
+  }
+
 }
