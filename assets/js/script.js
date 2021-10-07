@@ -131,6 +131,8 @@ function displayCovidData() {
 
   var riskLevel = document.getElementById("c19-RL");
 
+  riskLevel.innerHTML = "";
+
   var riskResultDivEl = document.createElement("div");
   var riskResultSpanEl = document.createElement("span");
 
@@ -151,7 +153,9 @@ function displayCovidData() {
   var VR2D = new ldBar("#PB-VR-2D");
   VR2D.set(Math.round(vaccineProgress2D * 10) / 10, false);
 
-  var dailyCasesCont = document.getElementById("DC");
+  var dailyCasesEl = document.getElementById("DC");
+
+  dailyCasesEl.innerHTML = "";
 
   var dcDiv = document.createElement("div");
   var dcSpan = document.createElement("span");
@@ -165,11 +169,13 @@ function displayCovidData() {
   dcSpan2.className = "small";
   dcSpan2.textContent = " per 100K";
 
-  dailyCasesCont.appendChild(dcDiv);
-  dailyCasesCont.appendChild(dcSpan);
-  dailyCasesCont.appendChild(dcSpan2);
+  dailyCasesEl.appendChild(dcDiv);
+  dailyCasesEl.appendChild(dcSpan);
+  dailyCasesEl.appendChild(dcSpan2);
 
   var infectionRateEl = document.getElementById("IR");
+
+  infectionRateEl.innerHTML = "";
 
   var irDiv = document.createElement("div");
   var irSpan = document.createElement("span");
@@ -184,6 +190,8 @@ function displayCovidData() {
   infectionRateEl.appendChild(irSpan);
 
   var positiveRateEl = document.getElementById("PT");
+
+  positiveRateEl.innerHTML = "";
 
   var ptDiv = document.createElement("div");
   var ptSpan = document.createElement("span");
