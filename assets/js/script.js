@@ -29,6 +29,8 @@ autocomplete.addListener("place_changed", () => {
 function storeCityData(data) {
   const components = data;
 
+  console.log(data);
+
   //Stores the city latatuide and longitude to cityData Object
   cityData["lat"] = components.geometry.location.lat();
   cityData["lon"] = components.geometry.location.lng();
@@ -212,6 +214,9 @@ function displayCovidData() {
 //function to place commas in a number
 //SOURCE: (https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript)
 function numberWithCommas(x) {
+  if(x === null || x === 0) {
+    return "N/A";
+  }
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
