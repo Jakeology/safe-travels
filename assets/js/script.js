@@ -1,17 +1,17 @@
-var bodyContainer = document.body;
-var cityNameInput = document.getElementById("city-input");
-var cityResultsContainer = document.getElementById("c19-CR");
+const bodyContainer = document.body;
+const cityNameInput = document.getElementById("city-input");
+const cityResultsContainer = document.getElementById("c19-CR");
 
-var cityData = {};
-var covidData = {};
+let cityData = {};
+let covidData = {};
 
 const options = {
   fields: ["address_components", "geometry"],
   strictBounds: false,
   types: ["(cities)"],
   componentRestrictions: {
-    country: "us"
-  }
+    country: "us",
+  },
 };
 
 const autocomplete = new google.maps.places.Autocomplete(cityNameInput, options);
@@ -24,7 +24,6 @@ autocomplete.addListener("place_changed", () => {
   }
 
   storeCityData(place);
-
 });
 
 function storeCityData(data) {
@@ -105,18 +104,18 @@ function getCovidData() {
 }
 
 function displayCovidData() {
-  var cityTitle = document.getElementById("c19-CT");
+  const cityTitle = document.getElementById("c19-CT");
 
   cityTitle.textContent = cityData.city + ", " + cityData.state + " (" + cityData.county_name + ")";
 
-  var riskLevel = document.getElementById("c19-RL");
+  const riskLevel = document.getElementById("c19-RL");
 
   riskLevel.innerHTML = "";
 
-  var riskResultDivEl = document.createElement("div");
-  var riskResultSpanEl = document.createElement("span");
+  const riskResultDivEl = document.createElement("div");
+  const riskResultSpanEl = document.createElement("span");
 
-  var getRiskLevel = getRiskResult("RL", covidData.riskLevels.overall);
+  let getRiskLevel = getRiskResult("RL", covidData.riskLevels.overall);
 
   riskResultDivEl.className = "risk-result " + getRiskLevel;
   riskResultSpanEl.textContent = getRiskLevel.toUpperCase();
@@ -125,24 +124,24 @@ function displayCovidData() {
   riskLevel.appendChild(riskResultDivEl);
   riskLevel.appendChild(riskResultSpanEl);
 
-  var vaccineProgress1D = covidData.metrics.vaccinationsInitiatedRatio * 100;
-  var vaccineProgress2D = covidData.metrics.vaccinationsCompletedRatio * 100;
+  const vaccineProgress1D = covidData.metrics.vaccinationsInitiatedRatio * 100;
+  const vaccineProgress2D = covidData.metrics.vaccinationsCompletedRatio * 100;
 
-  var VR1D = new ldBar("#PB-VR-1D");
+  let VR1D = new ldBar("#PB-VR-1D");
   VR1D.set(Math.round(vaccineProgress1D * 10) / 10, false);
 
-  var VR2D = new ldBar("#PB-VR-2D");
+  let VR2D = new ldBar("#PB-VR-2D");
   VR2D.set(Math.round(vaccineProgress2D * 10) / 10, false);
 
-  var dailyCasesEl = document.getElementById("DC");
+  const dailyCasesEl = document.getElementById("DC");
 
   dailyCasesEl.innerHTML = "";
 
-  var dcDiv = document.createElement("div");
-  var dcSpan = document.createElement("span");
-  var dcSpan2 = document.createElement("span");
+  const dcDiv = document.createElement("div");
+  const dcSpan = document.createElement("span");
+  const dcSpan2 = document.createElement("span");
 
-  var getDailyCaseLevel = getRiskResult("DC", covidData.metrics.caseDensity);
+  let getDailyCaseLevel = getRiskResult("DC", covidData.metrics.caseDensity);
 
   dcDiv.className = "risk-result " + getDailyCaseLevel;
   dcSpan.className = "bold";
@@ -154,14 +153,14 @@ function displayCovidData() {
   dailyCasesEl.appendChild(dcSpan);
   dailyCasesEl.appendChild(dcSpan2);
 
-  var infectionRateEl = document.getElementById("IR");
+  const infectionRateEl = document.getElementById("IR");
 
   infectionRateEl.innerHTML = "";
 
-  var irDiv = document.createElement("div");
-  var irSpan = document.createElement("span");
+  const irDiv = document.createElement("div");
+  const irSpan = document.createElement("span");
 
-  var getInfectinRateLevel = getRiskResult("IR", covidData.metrics.infectionRate);
+  let getInfectinRateLevel = getRiskResult("IR", covidData.metrics.infectionRate);
 
   irDiv.className = "risk-result " + getInfectinRateLevel;
   irSpan.className = "bold";
@@ -170,16 +169,16 @@ function displayCovidData() {
   infectionRateEl.appendChild(irDiv);
   infectionRateEl.appendChild(irSpan);
 
-  var positiveRateEl = document.getElementById("PT");
+  const positiveRateEl = document.getElementById("PT");
 
   positiveRateEl.innerHTML = "";
 
-  var ptDiv = document.createElement("div");
-  var ptSpan = document.createElement("span");
+  const ptDiv = document.createElement("div");
+  const ptSpan = document.createElement("span");
 
-  var getPositiveTestNum = covidData.metrics.testPositivityRatio * 100;
+  const getPositiveTestNum = covidData.metrics.testPositivityRatio * 100;
 
-  var getPositiveTestLevel = getRiskResult("PT", getPositiveTestNum);
+  let getPositiveTestLevel = getRiskResult("PT", getPositiveTestNum);
 
   ptDiv.className = "risk-result " + getPositiveTestLevel;
   ptSpan.className = "bold";
@@ -245,16 +244,6 @@ function getRiskResult(type, num) {
       return "severe";
     }
   }
-}
-
-function getLatLon() {
-  var queryString = document.location.search;
-
-  var params = new URLSearchParams(queryString);
-  var lat = params.get("lat");
-  var lon = params.get("lon");
-
-  getCityData(lat, lon);
 }
 
 function setElements() {
