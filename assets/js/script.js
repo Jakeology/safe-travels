@@ -1,14 +1,17 @@
-var bodyContainer = document.body;
-var cityNameInput = document.getElementById("city-input");
-var cityResultsContainer = document.getElementById("c19-CR");
+const bodyContainer = document.body;
+const cityNameInput = document.getElementById("city-input");
+const cityResultsContainer = document.getElementById("c19-CR");
 
-var cityData = {};
-var covidData = {};
+let cityData = {};
+let covidData = {};
 
 const options = {
-  fields: ["geometry"],
+  fields: ["address_components", "geometry"],
   strictBounds: false,
   types: ["(cities)"],
+  componentRestrictions: {
+    country: "us",
+  },
 };
 
 const autocomplete = new google.maps.places.Autocomplete(cityNameInput, options);
@@ -19,68 +22,45 @@ autocomplete.addListener("place_changed", () => {
   if (!place.geometry || !place.geometry.location) {
     return;
   }
-  var lat = place.geometry.location.lat();
-  var lon = place.geometry.location.lng();
 
-  //location.href = "./results.html?lat=" + lat.toFixed(8) + "&lon=" + lon.toFixed(8);
-  getCityData(lat, lon);
+  storeCityData(place);
 });
 
-function getCityData(lat, lon) {
-  const apiUrl =
-    "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
-    lat +
-    "," +
-    lon +
-    "&sensor=true&key=AIzaSyB1I-mViDpNAowaTQE5sr3IrZeILM5esfw";
+function storeCityData(data) {
+  const components = data;
 
-  fetch(apiUrl)
-    .then(function (response) {
-      if (response.ok) {
-        response.json().then(function (data) {
-          storeCityData(lat, lon, data);
-        });
-      } else {
-        alert("Error");
-      }
-    })
-    .catch(function (error) {
-      alert("Unable to connect to API");
-    });
-}
+  //Stores the city latatuide and longitude to cityData Object
+  cityData["lat"] = components.geometry.location.lat();
+  cityData["lon"] = components.geometry.location.lng();
 
-function storeCityData(lat, lon, data) {
-  var components = data.results[0].address_components;
-
-  cityData["lat"] = lat;
-  cityData["lon"] = lon;
-
-  for (var i = 0; i < components.length; i++) {
-    const type = components[i].types[0];
+  //Loops through adress_components and stores the values to cityData Object
+  for (i = 0; i < components.address_components.length; i++) {
+    const type = components.address_components[i].types[0];
 
     switch (type) {
+      //locality is defined as the city's name (Ex: Akron)
       case "locality":
-        cityData["city"] = components[i].long_name;
+        //Saves the city's name under cityData.city
+        cityData["city"] = components.address_components[i].long_name;
         break;
+      //administrative_area_level_1 is defined as the city's state (Ex: OH)
       case "administrative_area_level_1":
-        cityData["state"] = components[i].short_name;
+        //Saves the city's state under cityData.state
+        cityData["state"] = components.address_components[i].short_name;
         break;
+      //administrative_area_level_2 is defined as the city's county name(Ex: Summit County)
       case "administrative_area_level_2":
-        cityData["county_name"] = components[i].long_name;
+        //Saves the city's county name under cityData.county_name
+        cityData["county_name"] = components.address_components[i].long_name;
         break;
+      //country is defined as the country name(Ex: USA)
       case "country":
-        cityData["country"] = components[i].short_name;
+        //Saves the country under cityData.country
+        cityData["country"] = components.address_components[i].short_name;
         break;
-    }
-
-    if (components[i].types[0] === "country") {
-      if (components[i].short_name === "US") {
-        getCountyData(lat, lon, getCovidData);
-      } else {
-        console.log("This is NOT in the US");
-      }
     }
   }
+  getCountyData(cityData.lat, cityData.lon, getCovidData);
 }
 
 function getCountyData(lat, lon, callback) {
@@ -91,7 +71,6 @@ function getCountyData(lat, lon, callback) {
       if (response.ok) {
         response.json().then(function (data) {
           cityData["county_id"] = data.results[0].county_fips;
-          // console.log(cityData);
           return callback(data.results[0].county_fips);
         });
       } else {
@@ -125,39 +104,44 @@ function getCovidData() {
 }
 
 function displayCovidData() {
-  var cityTitle = document.getElementById("c19-CT");
+  const cityTitle = document.getElementById("c19-CT");
 
   cityTitle.textContent = cityData.city + ", " + cityData.state + " (" + cityData.county_name + ")";
 
-  var riskLevel = document.getElementById("c19-RL");
+  const riskLevel = document.getElementById("c19-RL");
 
-  var riskResultDivEl = document.createElement("div");
-  var riskResultSpanEl = document.createElement("span");
+  riskLevel.innerHTML = "";
 
-  var getRiskLevel = getRiskResult("RL", covidData.riskLevels.overall);
+  const riskResultDivEl = document.createElement("div");
+  const riskResultSpanEl = document.createElement("span");
+
+  let getRiskLevel = getRiskResult("RL", covidData.riskLevels.overall);
 
   riskResultDivEl.className = "risk-result " + getRiskLevel;
   riskResultSpanEl.textContent = getRiskLevel.toUpperCase();
+  riskResultSpanEl.className = "bold";
 
   riskLevel.appendChild(riskResultDivEl);
   riskLevel.appendChild(riskResultSpanEl);
 
-  var vaccineProgress1D = covidData.metrics.vaccinationsInitiatedRatio * 100;
-  var vaccineProgress2D = covidData.metrics.vaccinationsCompletedRatio * 100;
+  const vaccineProgress1D = covidData.metrics.vaccinationsInitiatedRatio * 100;
+  const vaccineProgress2D = covidData.metrics.vaccinationsCompletedRatio * 100;
 
-  var VR1D = new ldBar("#PB-VR-1D");
-  VR1D.set(Math.round(vaccineProgress1D * 10) / 10, false);
+  let VR1D = new ldBar("#PB-VR-1D");
+  VR1D.set(Math.round(vaccineProgress1D * 10) / 10, true);
 
-  var VR2D = new ldBar("#PB-VR-2D");
-  VR2D.set(Math.round(vaccineProgress2D * 10) / 10, false);
+  let VR2D = new ldBar("#PB-VR-2D");
+  VR2D.set(Math.round(vaccineProgress2D * 10) / 10, true);
 
-  var dailyCasesCont = document.getElementById("DC");
+  const dailyCasesEl = document.getElementById("DC");
 
-  var dcDiv = document.createElement("div");
-  var dcSpan = document.createElement("span");
-  var dcSpan2 = document.createElement("span");
+  dailyCasesEl.innerHTML = "";
 
-  var getDailyCaseLevel = getRiskResult("DC", covidData.metrics.caseDensity);
+  const dcDiv = document.createElement("div");
+  const dcSpan = document.createElement("span");
+  const dcSpan2 = document.createElement("span");
+
+  let getDailyCaseLevel = getRiskResult("DC", covidData.metrics.caseDensity);
 
   dcDiv.className = "risk-result " + getDailyCaseLevel;
   dcSpan.className = "bold";
@@ -165,16 +149,18 @@ function displayCovidData() {
   dcSpan2.className = "small";
   dcSpan2.textContent = " per 100K";
 
-  dailyCasesCont.appendChild(dcDiv);
-  dailyCasesCont.appendChild(dcSpan);
-  dailyCasesCont.appendChild(dcSpan2);
+  dailyCasesEl.appendChild(dcDiv);
+  dailyCasesEl.appendChild(dcSpan);
+  dailyCasesEl.appendChild(dcSpan2);
 
-  var infectionRateEl = document.getElementById("IR");
+  const infectionRateEl = document.getElementById("IR");
 
-  var irDiv = document.createElement("div");
-  var irSpan = document.createElement("span");
+  infectionRateEl.innerHTML = "";
 
-  var getInfectinRateLevel = getRiskResult("IR", covidData.metrics.infectionRate);
+  const irDiv = document.createElement("div");
+  const irSpan = document.createElement("span");
+
+  let getInfectinRateLevel = getRiskResult("IR", covidData.metrics.infectionRate);
 
   irDiv.className = "risk-result " + getInfectinRateLevel;
   irSpan.className = "bold";
@@ -183,14 +169,16 @@ function displayCovidData() {
   infectionRateEl.appendChild(irDiv);
   infectionRateEl.appendChild(irSpan);
 
-  var positiveRateEl = document.getElementById("PT");
+  const positiveRateEl = document.getElementById("PT");
 
-  var ptDiv = document.createElement("div");
-  var ptSpan = document.createElement("span");
+  positiveRateEl.innerHTML = "";
 
-  var getPositiveTestNum = covidData.metrics.testPositivityRatio * 100;
+  const ptDiv = document.createElement("div");
+  const ptSpan = document.createElement("span");
 
-  var getPositiveTestLevel = getRiskResult("PT", getPositiveTestNum);
+  const getPositiveTestNum = covidData.metrics.testPositivityRatio * 100;
+
+  let getPositiveTestLevel = getRiskResult("PT", getPositiveTestNum);
 
   ptDiv.className = "risk-result " + getPositiveTestLevel;
   ptSpan.className = "bold";
@@ -199,7 +187,32 @@ function displayCovidData() {
   positiveRateEl.appendChild(ptDiv);
   positiveRateEl.appendChild(ptSpan);
 
-  $("#preloader").fadeOut("slow");
+  const populationEl = document.getElementById("population");
+  populationEl.textContent = numberWithCommas(covidData.population);
+
+  const casesEl = document.getElementById("cases");
+  casesEl.textContent = numberWithCommas(covidData.actuals.cases);
+
+  const deathsEl = document.getElementById("deaths");
+  deathsEl.textContent = numberWithCommas(covidData.actuals.deaths);
+
+  const hospitalizedEl = document.getElementsByClassName("hospitalized");
+  hospitalizedEl[0].textContent = numberWithCommas(covidData.actuals.hospitalBeds.currentUsageCovid + covidData.actuals.icuBeds.currentUsageCovid);
+  hospitalizedEl[1].textContent = numberWithCommas(covidData.actuals.hospitalBeds.currentUsageCovid + covidData.actuals.icuBeds.currentUsageCovid);
+
+  const stableEl = document.getElementsByClassName("stable-condition");
+  stableEl[0].textContent = numberWithCommas(covidData.actuals.hospitalBeds.currentUsageCovid);
+  stableEl[1].textContent = numberWithCommas(covidData.actuals.hospitalBeds.currentUsageCovid);
+
+  const criticalEl = document.getElementsByClassName("critical-condition");
+  criticalEl[0].textContent = numberWithCommas(covidData.actuals.icuBeds.currentUsageCovid);
+  criticalEl[1].textContent = numberWithCommas(covidData.actuals.icuBeds.currentUsageCovid);
+}
+
+//function to place commas in a number
+//SOURCE: (https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript)
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function getRiskResult(type, num) {
@@ -260,24 +273,30 @@ function getRiskResult(type, num) {
   }
 }
 
-function getLatLon() {
-  var queryString = document.location.search;
-
-  var params = new URLSearchParams(queryString);
-  var lat = params.get("lat");
-  var lon = params.get("lon");
-
-  getCityData(lat, lon);
+function setElements() {
+  if ($(window).width() <= 991) {
+    $("#x1").addClass("d-none");
+    $("#x2").removeClass("d-none");
+  } else {
+    $("#x2").addClass("d-none");
+    $("#x1").removeClass("d-none");
+  }
+  if ($(window).width() <= 686) {
+    $(".other-results").removeClass("d-flex");
+  } else {
+    $(".other-results").addClass("d-flex");
+  }
+  if ($(window).width() <= 536) {
+    $(".top-row").removeClass("d-flex justify-content-between").addClass("d- block justify-content-center");
+  } else {
+    $(".top-row").addClass("d-flex justify-content-between").removeClass("d-block justify-content-center");
+  }
 }
 
-$(window).on('resize', function() {
-  if($(window).width() <= 767) {
-      $('#t1').addClass('d-none');
-      $('#t2').removeClass('d-none');
-  } else {
-      $('#t2').addClass('d-none');
-      $('#t1').removeClass('d-none');
-  }
-})
+$(window).on("resize", function () {
+  setElements();
+});
+
+setElements();
 
 //getLatLon();

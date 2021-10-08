@@ -14,7 +14,7 @@
   <body>
     <header>
       <a href="./index.html"><h1>Safe Travels</h1></a>
-      <div class="search-container">
+      <div class="search-bar">
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Search by City, State" id="city-input" />
           <div class="input-group-append">
@@ -25,19 +25,16 @@
     </header>
 
     <main>
-      <!-- <div id="preloader">
-        <div class="spinner">
-          <span class="loader"><span class="loader-inner"></span></span>
-        </div>
-      </div> -->
       <div class="container-xxl">
         <div class="m-1 row d-flex justify-content-center">
-          <div class="col-12 col-md-10">
-            <div class="covid-city-title" id="c19-CT"></div>
-            <div class="card">
+          <div class="col-12 col-lg-8">
+            <div class="card risk-card-margin">
+              <div class="card-header">
+                <div class="covid-city-title" id="c19-CT"></div>
+              </div>
               <div class="card-body" id="t1">
-                <div class="top-row">
-                  <div class="risk-level">
+                <div class="top-row d-flex justify-content-between">
+                  <div id= "risk-level" class="risk-level">
                     <div class="key">
                       <div class="risk-key severe"></div>
                       <div class="risk-key critical"></div>
@@ -46,10 +43,11 @@
                       <div class="risk-key low"></div>
                     </div>
 
-                    <div class="risk-level-result" id="c19-RL">
+                    <div class="risk-level-result">
                       <div class="risk-title">
                         <h6>Risk Level</h6>
                       </div>
+                      <div id="c19-RL"></div>
                     </div>
                   </div>
                   <div class="vaccine-rate" id="c19-VR">
@@ -63,24 +61,47 @@
                   </div>
                 </div>
                 <div class="bottom-row">
-                  <div class="other-results">
-                    <div class="daily-new-cases" id="DC">
+                  <div class="other-results d-flex">
+                    <div class="daily-new-cases">
                       <h5>Daily new cases</h5>
+                      <div id="DC"></div>
                     </div>
-                    <div class="infection-rates" id="IR">
+                    <div class="infection-rates">
                       <h5>Infection rate</h5>
+                      <div id="IR"></div>
                     </div>
-                    <div div class="positive-test-rates" id="PT">
+                    <div div class="positive-test-rates">
                       <h5>Positive test rate</h5>
+                      <div id="PT"></div>
                     </div>
                   </div>
                 </div>
               </div>
-              <ul class="list-group list-group-flush d-none" id="t2">
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-              </ul>
+            </div>
+          </div>
+          <div class="col-6 col-lg-4">
+            <div class="card pop-card-margin">
+              <div class="card-body text-center">
+                <h6>Population: <span id="population"></span></h6>
+                <h6>Total cases: <span id="cases"></span></h6>
+                <h6>Total deaths: <span id="deaths"></span></h6>
+              </div>
+            </div>
+            <div id="x1" class="card hos-card-margin">
+              <div class="card-body text-center">
+                <h6>Hospitalized: <span class="hospitalized"></span></h6>
+                <h6>Stable: <span class="stable-condition"></span></h6>
+                <h6>Critical: <span class="critical-condition"></span></h6>
+              </div>
+            </div>
+          </div>
+          <div id="x2" class="col-6 d-none">
+            <div class="card pop-card-margin">
+              <div class="card-body text-center">
+                <h6>Hospitalized: <span class="hospitalized"></span></h6>
+                <h6>Stable: <span class="stable-condition"></span></h6>
+                <h6>Critical: <span class="critical-condition"></span></h6>
+              </div>
             </div>
           </div>
         </div>
@@ -96,4 +117,3 @@
     <script type="text/javascript" src="./assets/js/script.js"></script>
   </body>
 </html>
-
