@@ -6,9 +6,12 @@ var cityData = {};
 var covidData = {};
 
 const options = {
-  fields: ["geometry"],
+  fields: ["address_components", "geometry"],
   strictBounds: false,
   types: ["(cities)"],
+  componentRestrictions: {
+    country: "us"
+  }
 };
 
 const autocomplete = new google.maps.places.Autocomplete(cityNameInput, options);
@@ -19,68 +22,46 @@ autocomplete.addListener("place_changed", () => {
   if (!place.geometry || !place.geometry.location) {
     return;
   }
-  var lat = place.geometry.location.lat();
-  var lon = place.geometry.location.lng();
 
-  //location.href = "./results.html?lat=" + lat.toFixed(8) + "&lon=" + lon.toFixed(8);
-  getCityData(lat, lon);
+  storeCityData(place);
+
 });
 
-function getCityData(lat, lon) {
-  const apiUrl =
-    "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
-    lat +
-    "," +
-    lon +
-    "&sensor=true&key=AIzaSyB1I-mViDpNAowaTQE5sr3IrZeILM5esfw";
+function storeCityData(data) {
+  const components = data;
 
-  fetch(apiUrl)
-    .then(function (response) {
-      if (response.ok) {
-        response.json().then(function (data) {
-          storeCityData(lat, lon, data);
-        });
-      } else {
-        alert("Error");
-      }
-    })
-    .catch(function (error) {
-      alert("Unable to connect to API");
-    });
-}
+  //Stores the city latatuide and longitude to cityData Object
+  cityData["lat"] = components.geometry.location.lat();
+  cityData["lon"] = components.geometry.location.lng();
 
-function storeCityData(lat, lon, data) {
-  var components = data.results[0].address_components;
-
-  cityData["lat"] = lat;
-  cityData["lon"] = lon;
-
-  for (var i = 0; i < components.length; i++) {
-    const type = components[i].types[0];
+  //Loops through adress_components and stores the values to cityData Object
+  for (i = 0; i < components.address_components.length; i++) {
+    const type = components.address_components[i].types[0];
 
     switch (type) {
+      //locality is defined as the city's name (Ex: Akron)
       case "locality":
-        cityData["city"] = components[i].long_name;
+        //Saves the city's name under cityData.city
+        cityData["city"] = components.address_components[i].long_name;
         break;
+      //administrative_area_level_1 is defined as the city's state (Ex: OH)
       case "administrative_area_level_1":
-        cityData["state"] = components[i].short_name;
+        //Saves the city's state under cityData.state
+        cityData["state"] = components.address_components[i].short_name;
         break;
+      //administrative_area_level_2 is defined as the city's county name(Ex: Summit County)
       case "administrative_area_level_2":
-        cityData["county_name"] = components[i].long_name;
+        //Saves the city's county name under cityData.county_name
+        cityData["county_name"] = components.address_components[i].long_name;
         break;
+      //country is defined as the country name(Ex: USA)
       case "country":
-        cityData["country"] = components[i].short_name;
+        //Saves the country under cityData.country
+        cityData["country"] = components.address_components[i].short_name;
         break;
-    }
-
-    if (components[i].types[0] === "country") {
-      if (components[i].short_name === "US") {
-        getCountyData(lat, lon, getCovidData);
-      } else {
-        console.log("This is NOT in the US");
-      }
     }
   }
+  getCountyData(cityData.lat, cityData.lon, getCovidData);
 }
 
 function getCountyData(lat, lon, callback) {
@@ -91,7 +72,6 @@ function getCountyData(lat, lon, callback) {
       if (response.ok) {
         response.json().then(function (data) {
           cityData["county_id"] = data.results[0].county_fips;
-          // console.log(cityData);
           return callback(data.results[0].county_fips);
         });
       } else {
@@ -207,8 +187,6 @@ function displayCovidData() {
 
   positiveRateEl.appendChild(ptDiv);
   positiveRateEl.appendChild(ptSpan);
-
-  $("#preloader").fadeOut("slow");
 }
 
 function getRiskResult(type, num) {
