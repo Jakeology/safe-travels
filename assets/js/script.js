@@ -186,6 +186,33 @@ function displayCovidData() {
 
   positiveRateEl.appendChild(ptDiv);
   positiveRateEl.appendChild(ptSpan);
+
+  const populationEl = document.getElementById("population");
+  populationEl.textContent = numberWithCommas(covidData.population);
+
+  const casesEl = document.getElementById("cases");
+  casesEl.textContent = numberWithCommas(covidData.actuals.cases);
+
+  const deathsEl = document.getElementById("deaths");
+  deathsEl.textContent = numberWithCommas(covidData.actuals.deaths);
+
+  const hospitalizedEl = document.getElementsByClassName("hospitalized");
+  hospitalizedEl[0].textContent = numberWithCommas(covidData.actuals.hospitalBeds.currentUsageCovid + covidData.actuals.icuBeds.currentUsageCovid);
+  hospitalizedEl[1].textContent = numberWithCommas(covidData.actuals.hospitalBeds.currentUsageCovid + covidData.actuals.icuBeds.currentUsageCovid);
+
+  const stableEl = document.getElementsByClassName("stable-condition");
+  stableEl[0].textContent = numberWithCommas(covidData.actuals.hospitalBeds.currentUsageCovid);
+  stableEl[1].textContent = numberWithCommas(covidData.actuals.hospitalBeds.currentUsageCovid);
+
+  const criticalEl = document.getElementsByClassName("critical-condition");
+  criticalEl[0].textContent = numberWithCommas(covidData.actuals.icuBeds.currentUsageCovid);
+  criticalEl[1].textContent = numberWithCommas(covidData.actuals.icuBeds.currentUsageCovid);
+}
+
+//function to place commas in a number
+//SOURCE: (https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript)
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function getRiskResult(type, num) {
