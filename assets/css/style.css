@@ -25,8 +25,13 @@ header h1 {
   font-weight: 900;
 }
 
+header {
+  position: sticky;
+  top: 0;
+}
+
 .transition-in {
-  font-size: 3em;
+  font-size: 3.5em;
   transition: 0.6s;
 }
 
@@ -37,11 +42,14 @@ header h1 {
 
 .curve {
   color: white;
-  position: relative;
   text-align: center;
+  position: relative;
+  overflow: hidden;
   padding: 3rem 2rem;
   width: 100%;
   z-index: 2;
+  padding-bottom: 4em;
+  height: 336px;
 }
 .curve::before {
   content: "";
@@ -57,6 +65,7 @@ header h1 {
   height: 300vw;
   z-index: -1;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 15px;
 }
 
 a {
@@ -89,12 +98,6 @@ a {
 
 .hos-card-margin {
   margin-top: 10px;
-}
-
-.content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
 }
 
 .search-bar {
@@ -155,10 +158,18 @@ a {
   margin-right: 10px;
 }
 
-.low {
-  background-color: rgb(146, 199, 0);
+.round-top {
+  border-top-right-radius: 25px;
+  border-top-left-radius: 25px;
+}
+
+.round-bottom {
   border-bottom-right-radius: 25px;
   border-bottom-left-radius: 25px;
+}
+
+.low {
+  background-color: rgb(146, 199, 0);
 }
 
 .medium {
@@ -175,8 +186,6 @@ a {
 
 .severe {
   background-color: rgb(117, 0, 0);
-  border-top-right-radius: 25px;
-  border-top-left-radius: 25px;
 }
 
 .vaccine-1d,
@@ -218,6 +227,11 @@ a {
     margin-top: 1em;
   }
 }
+@media screen and (max-width: 696px) {
+  .curve {
+    padding: 0.5em 2em;
+  }
+}
 
 @media screen and (max-width: 686px) {
   .other-results {
@@ -243,10 +257,14 @@ a {
   .search-bar {
     width: 15em;
     transition: 0.7s;
-    text-align: left;
+  }
+
+  .form-control {
+    padding-left: 2.25em;
   }
 
   .curve {
+    padding-top: 3em;
     padding-left: 0.5em;
     padding-right: 0.5em;
   }

@@ -286,6 +286,10 @@ function getRiskResult(type, num) {
   }
 }
 
+function setHeaderText() {
+
+}
+
 function setElements() {
   if ($(window).width() <= 991) {
     $("#x1").addClass("d-none");
@@ -293,6 +297,13 @@ function setElements() {
   } else {
     $("#x2").addClass("d-none");
     $("#x1").removeClass("d-none");
+  }
+  if ($(window).width() <= 696) {
+    const getHeader = document.getElementById("title");
+    getHeader.innerHTML = "Safe<i class='bi bi-shield-lock'></i><br />Travel";
+  } else {
+    const getHeader = document.getElementById("title");
+    getHeader.innerHTML = "Safe<i class='bi bi-shield-lock'></i>Travel";
   }
   if ($(window).width() <= 686) {
     $(".other-results").removeClass("d-flex");
@@ -302,7 +313,6 @@ function setElements() {
   if ($(window).width() <= 536) {
     $(".top-row").removeClass("d-flex justify-content-between").addClass("d- block justify-content-center");
     $("#title").addClass("transition-in").removeClass("transition-out");
-    
   } else {
     $(".top-row").addClass("d-flex justify-content-between").removeClass("d-block justify-content-center");
     $("#title").addClass("transition-out").removeClass("transition-in");
