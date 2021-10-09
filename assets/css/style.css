@@ -1,0 +1,253 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Roboto:wght@100;300;400;500;700;900&display=swap");
+
+:root {
+  --primaryColor: white;
+  --textColor: #000000;
+  --border-radius: 0.3rem;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+main {
+  font-family: "Roboto", sans-serif;
+}
+
+header h1 {
+  color: white;
+  padding-top: 0.4em;
+  font-size: 5em;
+  text-align: center;
+  font-family: "Cinzel Decorative", cursive;
+  font-weight: 900;
+}
+
+.transition-in {
+  font-size: 3em;
+  transition: 0.6s;
+}
+
+.transition-out {
+  font-size: 5em;
+  transition: 0.6s;
+}
+
+.curve {
+  color: white;
+  position: relative;
+  text-align: center;
+  padding: 3rem 2rem;
+  width: 100%;
+  z-index: 2;
+}
+.curve::before {
+  content: "";
+  display: block;
+  background: rgb(109,80,214);
+  background: linear-gradient(90deg, rgba(109,80,214,1) 40%, rgba(94,173,255,1) 55%, rgba(29,253,224,1) 70%);
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  border-radius: 150vw;
+  width: 300vw;
+  height: 300vw;
+  z-index: -1;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+a {
+  text-decoration: none;
+}
+
+.card-header {
+  height: 50px;
+  background-color: white;
+  border: none;
+}
+
+.card-body {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f1f1f1;
+  border-radius: 1em;
+}
+
+.card {
+  border: none;
+}
+
+.risk-card-margin {
+  margin-top: 3em;
+}
+
+.pop-card-margin {
+  margin-top: 6em;
+}
+
+.hos-card-margin {
+  margin-top: 10px;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.search-bar {
+  margin: 0 auto;
+  width: 20em;
+  padding-bottom: 10px;
+}
+
+.input-group-text {
+  border-bottom-right-radius: 2em;
+  border-top-right-radius: 2em;
+  color: var(--textColor);
+  background-color: white;
+}
+
+.form-control {
+  border-radius: 2em;
+  border-right: none;
+  text-align: center;
+  padding-left: 3em;
+}
+
+.top-row {
+  flex-wrap: wrap;
+}
+
+.risk-level {
+  display: flex;
+  justify-content: center;
+  margin: 2.5em 0 2em 2em;
+}
+
+.vaccine-rate {
+  text-align: center;
+  margin: 2em 3em 0.5em 0;
+}
+
+.risk-level-result {
+  padding-left: 1em;
+}
+
+.risk-title {
+  color: #a1a1a1;
+  padding-bottom: 5px;
+}
+
+.risk-key {
+  width: 14px;
+  height: 14px;
+}
+
+.risk-result {
+  width: 10px;
+  height: 10px;
+  border-radius: 50px;
+  font-size: 20px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.low {
+  background-color: rgb(146, 199, 0);
+  border-bottom-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+}
+
+.medium {
+  background-color: rgb(235, 211, 0);
+}
+
+.high {
+  background-color: rgb(255, 136, 0);
+}
+
+.critical {
+  background-color: rgb(255, 0, 0);
+}
+
+.severe {
+  background-color: rgb(117, 0, 0);
+  border-top-right-radius: 25px;
+  border-top-left-radius: 25px;
+}
+
+.vaccine-1d,
+.vaccine-2d {
+  font-size: 10px;
+  padding-left: 25px;
+  color: #a1a1a1;
+}
+
+.vaccine-2d {
+  padding-left: 35px;
+}
+
+.progress-bars {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.daily-new-cases,
+.infection-rates,
+.positive-test-rates {
+  display: block;
+  text-align: center;
+  padding-left: 3em;
+}
+
+.small {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.bold {
+  font-weight: 900;
+}
+
+@media screen and (max-width: 991px) {
+  .pop-card-margin {
+    margin-top: 1em;
+  }
+}
+
+@media screen and (max-width: 686px) {
+  .other-results {
+    margin-top: 1em;
+  }
+
+  .daily-new-cases,
+  .infection-rates,
+  .positive-test-rates {
+    padding-left: 0;
+  }
+
+  .covid-city-title {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 536px) {
+  .vaccine-rate {
+    margin: 0;
+  }
+
+  .search-bar {
+    width: 15em;
+    transition: 0.7s;
+    text-align: left;
+  }
+
+  .curve {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+}
