@@ -130,10 +130,10 @@ function displayCovidData() {
   const vaccineProgress2D = covidData.metrics.vaccinationsCompletedRatio * 100;
 
   let VR1D = new ldBar("#PB-VR-1D");
-  VR1D.set(Math.round(vaccineProgress1D * 10) / 10, true);
+  VR1D.set(roundDecimal(vaccineProgress1D), true);
 
   let VR2D = new ldBar("#PB-VR-2D");
-  VR2D.set(Math.round(vaccineProgress2D * 10) / 10, true);
+  VR2D.set(roundDecimal(vaccineProgress2D), true);
 
   const dailyCasesEl = document.getElementById("DC");
 
@@ -147,7 +147,7 @@ function displayCovidData() {
 
   dcDiv.className = "risk-result " + getDailyCaseLevel;
   dcSpan.className = "bold";
-  dcSpan.textContent = covidData.metrics.caseDensity;
+  dcSpan.textContent = roundDecimal(covidData.metrics.caseDensity);
   dcSpan2.className = "small";
   dcSpan2.textContent = " per 100K";
 
@@ -166,7 +166,7 @@ function displayCovidData() {
 
   irDiv.className = "risk-result " + getInfectinRateLevel;
   irSpan.className = "bold";
-  irSpan.textContent = covidData.metrics.infectionRate + "%";
+  irSpan.textContent = roundDecimal(covidData.metrics.infectionRate) + "%";
 
   infectionRateEl.appendChild(irDiv);
   infectionRateEl.appendChild(irSpan);
@@ -184,7 +184,7 @@ function displayCovidData() {
 
   ptDiv.className = "risk-result " + getPositiveTestLevel;
   ptSpan.className = "bold";
-  ptSpan.textContent = getPositiveTestNum + "%";
+  ptSpan.textContent = roundDecimal(getPositiveTestNum) + "%";
 
   positiveRateEl.appendChild(ptDiv);
   positiveRateEl.appendChild(ptSpan);
@@ -222,6 +222,10 @@ function numberWithCommas(x) {
     return "N/A";
   }
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function roundDecimal(num) {
+  return Math.round(num * 10) / 10;
 }
 
 function getRiskResult(type, num) {

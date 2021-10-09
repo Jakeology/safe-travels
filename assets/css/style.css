@@ -2,7 +2,7 @@
 
 :root {
   --primaryColor: white;
-  --textColor: #88ca97;
+  --textColor: #000000;
   --border-radius: 0.3rem;
 }
 
@@ -243,6 +243,7 @@ a {
   .search-bar {
     width: 15em;
     transition: 0.7s;
+    text-align: left;
   }
 
   .curve {
