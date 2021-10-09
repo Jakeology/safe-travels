@@ -9,6 +9,7 @@
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 main {
@@ -16,16 +17,46 @@ main {
 }
 
 header h1 {
-  background-color: var(--primaryColor);
-  color: var(--textColor);
+  color: white;
   padding-top: 0.4em;
-  font-size: 4em;
+  font-size: 5em;
   text-align: center;
   font-family: "Cinzel Decorative", cursive;
   font-weight: 900;
 }
-header {
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.06);
+
+.transition-in {
+  font-size: 3em;
+  transition: 0.6s;
+}
+
+.transition-out {
+  font-size: 5em;
+  transition: 0.6s;
+}
+
+.curve {
+  color: white;
+  position: relative;
+  text-align: center;
+  padding: 3rem 2rem;
+  width: 100%;
+  z-index: 2;
+}
+.curve::before {
+  content: "";
+  display: block;
+  background: rgb(109,80,214);
+  background: linear-gradient(90deg, rgba(109,80,214,1) 40%, rgba(94,173,255,1) 55%, rgba(29,253,224,1) 70%);
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  border-radius: 150vw;
+  width: 300vw;
+  height: 300vw;
+  z-index: -1;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 a {
@@ -39,7 +70,8 @@ a {
 }
 
 .card-body {
-  border: 1px solid rgb(228, 228, 228);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f1f1f1;
   border-radius: 1em;
 }
 
@@ -201,11 +233,20 @@ a {
   .covid-city-title {
     text-align: center;
   }
-
 }
 
 @media screen and (max-width: 536px) {
   .vaccine-rate {
     margin: 0;
+  }
+
+  .search-bar {
+    width: 15em;
+    transition: 0.7s;
+  }
+
+  .curve {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
   }
 }

@@ -199,8 +199,12 @@ function displayCovidData() {
   deathsEl.textContent = numberWithCommas(covidData.actuals.deaths);
 
   const hospitalizedEl = document.getElementsByClassName("hospitalized");
-  hospitalizedEl[0].textContent = numberWithCommas(covidData.actuals.hospitalBeds.currentUsageCovid + covidData.actuals.icuBeds.currentUsageCovid);
-  hospitalizedEl[1].textContent = numberWithCommas(covidData.actuals.hospitalBeds.currentUsageCovid + covidData.actuals.icuBeds.currentUsageCovid);
+  hospitalizedEl[0].textContent = numberWithCommas(
+    covidData.actuals.hospitalBeds.currentUsageCovid + covidData.actuals.icuBeds.currentUsageCovid
+  );
+  hospitalizedEl[1].textContent = numberWithCommas(
+    covidData.actuals.hospitalBeds.currentUsageCovid + covidData.actuals.icuBeds.currentUsageCovid
+  );
 
   const stableEl = document.getElementsByClassName("stable-condition");
   stableEl[0].textContent = numberWithCommas(covidData.actuals.hospitalBeds.currentUsageCovid);
@@ -214,7 +218,7 @@ function displayCovidData() {
 //function to place commas in a number
 //SOURCE: (https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript)
 function numberWithCommas(x) {
-  if(x === null || x === 0) {
+  if (x === null || x === 0) {
     return "N/A";
   }
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -293,8 +297,11 @@ function setElements() {
   }
   if ($(window).width() <= 536) {
     $(".top-row").removeClass("d-flex justify-content-between").addClass("d- block justify-content-center");
+    $("#title").addClass("transition-in").removeClass("transition-out");
+    
   } else {
     $(".top-row").addClass("d-flex justify-content-between").removeClass("d-block justify-content-center");
+    $("#title").addClass("transition-out").removeClass("transition-in");
   }
 }
 
