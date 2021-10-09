@@ -72,8 +72,13 @@ a {
   text-decoration: none;
 }
 
-.card-header {
+.covid-card-header {
   height: 50px;
+  background-color: white;
+  border: none;
+}
+
+.card-header {
   background-color: white;
   border: none;
 }
@@ -86,6 +91,7 @@ a {
 
 .card {
   border: none;
+  z-index: -2;
 }
 
 .risk-card-margin {
@@ -122,6 +128,10 @@ a {
 
 .top-row {
   flex-wrap: wrap;
+}
+
+.bottom-row {
+  padding-bottom: 5px;
 }
 
 .risk-level {
@@ -221,6 +231,20 @@ a {
 .bold {
   font-weight: 900;
 }
+
+.weather {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.weather-box {
+  width: 15vh;
+  height: 20vh;
+  margin: 1em;
+}
+
+
 
 @media screen and (max-width: 991px) {
   .pop-card-margin {
