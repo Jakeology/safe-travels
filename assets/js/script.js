@@ -4,6 +4,7 @@ const cityResultsContainer = document.getElementById("c19-CR");
 
 let cityData = {};
 let covidData = {};
+let weatherData = {};
 
 const options = {
   fields: ["address_components", "geometry"],
@@ -63,6 +64,7 @@ function storeCityData(data) {
     }
   }
   getCountyData(cityData.lat, cityData.lon, getCovidData);
+  getWeatherData(cityData.lat, cityData.lon);
 }
 
 function getCountyData(lat, lon, callback) {
@@ -103,6 +105,80 @@ function getCovidData() {
     .catch(function (error) {
       alert("Unable to connect to API");
     });
+}
+
+function getWeatherData(lat, lon) {
+  var apiUrl =
+    "https://api.openweathermap.org/data/2.5/onecall?lat=" +
+    lat +
+    "&lon=" +
+    lon +
+    "&exclude=minutely,hourly&units=imperial&appid=05d022c22c687fddb635d7cf8a4c9afb";
+
+  fetch(apiUrl)
+    .then(function (response) {
+      if (response.ok) {
+        response.json().then(function (data) {
+          weatherData = data;
+          displayFutureForecast();
+        });
+      } else {
+        alert("Error: Can't find weather");
+      }
+    })
+    .catch(function (error) {
+      alert("Unable to connect to OpenWeatherAPI");
+    });
+}
+
+function displayFutureForecast() {
+  for (i = 0; i < 5; i++) {
+    var header = document.getElementById("forecast-header-" + i);
+    var date = moment.unix(weatherData.daily[i].dt).format("MM/DD/YYYY");
+    header.textContent = date;
+
+    var icon = document.getElementById("forecast-icon-" + i);
+
+    if (icon) {
+      icon.innerHTML = "";
+    }
+
+    var weatherIconId = weatherData.daily[i].weather[0].icon;
+
+    var img = document.createElement("img");
+    img.src = "https://openweathermap.org/img/w/" + weatherIconId + ".png";
+    icon.appendChild(img);
+
+    var p = document.createElement("p");
+    p.textContent = weatherData.daily[i].weather[0].main;
+    icon.appendChild(p);
+
+    var body = document.getElementById("forecast-body-" + i);
+
+    if (body) {
+      body.innerHTML = "";
+    }
+
+    var temp = document.createElement("h5");
+    temp.className = "card-text";
+    temp.textContent =
+      "H:" +
+      Math.round(weatherData.daily[i].feels_like.day) +
+      "° L:" +
+      Math.round(weatherData.daily[i].feels_like.night) +
+      "°";
+    body.appendChild(temp);
+
+    var wind = document.createElement("h5");
+    wind.className = "card-text";
+    wind.textContent = "Wind: " + Math.round(10 * weatherData.daily[i].wind_speed) / 10 + "MPH";
+    body.appendChild(wind);
+
+    var humidity = document.createElement("h5");
+    humidity.className = "card-text";
+    humidity.textContent = "Humidity: " + weatherData.daily[i].humidity + "%";
+    body.appendChild(humidity);
+  }
 }
 
 function displayCovidData() {
