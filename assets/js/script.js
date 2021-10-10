@@ -1,6 +1,7 @@
 const bodyContainer = document.body;
 const cityNameInput = document.getElementById("city-input");
 const cityResultsContainer = document.getElementById("c19-CR");
+const history = JSON.parse(window.localStorage.getItem("searchHistory"))|| []
 
 let cityData = {};
 let covidData = {};
@@ -13,6 +14,16 @@ const options = {
     country: "us",
   },
 };
+// local storage - persistence feature
+function searchHistory (cityNameInput){
+  var listitem= $("<li>").addClass("list-group-item").text(cityNameInput)
+console.log(cityNameInput.value)
+  $("#searchHistory").append(listitem)
+
+}
+
+
+
 
 const autocomplete = new google.maps.places.Autocomplete(cityNameInput, options);
 
@@ -22,9 +33,13 @@ autocomplete.addListener("place_changed", () => {
   if (!place.geometry || !place.geometry.location) {
     return;
   }
-
+console.log(cityNameInput.value)
   storeCityData(place);
+
+  
 });
+
+console.log(autocomplete)
 
 function storeCityData(data) {
   const components = data;
@@ -99,13 +114,26 @@ function getCovidData() {
       } else {
         alert("Error");
       }
+      searchHistory(cityNameInput.value)
+      history.push(cityNameInput.value)
+      //searchWeather(cityNameInput.value) look out for if autocomplte messes up weather search
+window.localStorage.setItem("searchHistory", JSON.stringify(history))
+
     })
     .catch(function (error) {
       alert("Unable to connect to API");
     });
 }
 
+for (var i = 0; i< history.length; i++){
+
+  searchHistory(history[i])
+} 
+
+//place weather here searchWeather()
+
 function displayCovidData() {
+
   const cityTitle = document.getElementById("c19-CT");
 
   cityTitle.textContent = cityData.city + ", " + cityData.state + " (" + cityData.county_name + ")";

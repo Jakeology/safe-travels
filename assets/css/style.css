@@ -46,8 +46,8 @@ header h1 {
 .curve::before {
   content: "";
   display: block;
-  background: rgb(109,80,214);
-  background: linear-gradient(90deg, rgba(109,80,214,1) 40%, rgba(94,173,255,1) 55%, rgba(29,253,224,1) 70%);
+  background: grey;
+  background: linear-gradient(90deg, rgb(181, 175, 204) 40%, rgba(94,173,255,1) 55%, rgb(202, 221, 219) 70%);
   position: absolute;
   left: 50%;
   bottom: 0;
