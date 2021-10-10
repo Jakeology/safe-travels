@@ -23,6 +23,7 @@ header h1 {
   text-align: center;
   font-family: "Cinzel Decorative", cursive;
   font-weight: 900;
+  white-space: nowrap;
 }
 
 header {
@@ -30,26 +31,15 @@ header {
   top: 0;
 }
 
-.transition-in {
-  font-size: 3.5em;
-  transition: 0.6s;
-}
-
-.transition-out {
-  font-size: 5em;
-  transition: 0.6s;
-}
-
 .curve {
   color: white;
   text-align: center;
   position: relative;
   overflow: hidden;
-  padding: 3rem 2rem;
+  padding: 2em;
   width: 100%;
   z-index: 2;
   padding-bottom: 4em;
-  height: 336px;
 }
 .curve::before {
   content: "";
@@ -239,8 +229,8 @@ a {
 }
 
 .weather-box {
-  width: 15vh;
-  height: 20vh;
+  width: 12em;
+  height: 15em;
   margin: 0 0.5em 1em 0.5em;
 }
 
@@ -259,7 +249,7 @@ a {
 }
 @media screen and (max-width: 696px) {
   .curve {
-    padding: 0.5em 2em;
+    padding: 0.25em 2em 2em;
   }
 }
 
@@ -294,8 +284,6 @@ a {
   }
 
   .curve {
-    padding-top: 3em;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
+    padding: 0.25em 0.5em 1.5em;
   }
 }
