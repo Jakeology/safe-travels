@@ -2,6 +2,13 @@ const bodyContainer = document.body;
 const cityNameInput = document.getElementById("city-input");
 const cityResultsContainer = document.getElementById("c19-CR");
 const history = JSON.parse(window.localStorage.getItem("searchHistory"))|| []
+const apiKey123 = "5ae2e3f221c38a28845f05b6fcf2c7d719eb9536c12ac8943fef8ea8"; //opentravel
+const nextBtn = document.getElementById("next");
+const pageLength = 3; // number of objects per page
+
+
+let offset = 0; // offset from first object in the list
+let count; // total objects count
 
 
 let cityData = {};
@@ -35,19 +42,20 @@ autocomplete.addListener("place_changed", () => {
   const place = autocomplete.getPlace();
   lat=place.geometry.location.lat()
   long=place.geometry.location.lng();
-  formattedAddress=place.formatted_address();
-  console.log(formattedAddress);
+  // formattedAddress=place.formatted_address();
+  // console.log(formattedAddress);
 
   if (!place.geometry || !place.geometry.location) {
     return;
   }
 
-  getWeatherData(cityData.lat, cityData.lon)
-  getPOI(cityData.lat, cityData.lon)
+ 
+  
 
-console.log(cityNameInput.value)
+  console.log(cityNameInput.value)
   storeCityData(place);
-
+  getWeatherInfo(cityData.lat, cityData.lon, cityData.city)
+  getPOI(cityData.lat, cityData.lon)
   
 });
 
@@ -358,7 +366,7 @@ setElements();
 
 //getLatLon();
 
-function getWeatherInfo(lat, lon)
+function getWeatherInfo(lat, lon, city)
 {
 
     //Call Open weather API
@@ -366,11 +374,29 @@ function getWeatherInfo(lat, lon)
 
     .then(response => response.json())
     .then(data => {
-       console.log(data);
-
+       console.log(data); 
+       let weather=document.getElementById("weather").textContent="Check out the weather forecast in "+ city
        let temp= document.getElementById("temp").textContent='Temp: '+data['current']['temp'];
-       let humidity1= document.getElementById("humidity").textContent='Hum: '+data['current']['humidity'];
-       let humidity= document.getElementById("wind").textContent='Wind: '+ data['current']['wind_speed'];
+       let humidity= document.getElementById("humidity").textContent='Hum: '+data['current']['humidity'];
+       let wind= document.getElementById("wind").textContent='Wind: '+ data['current']['wind_speed'];
     })
     .catch(err => alert(err))
+}
+function apiGet(method, query) {
+  return new Promise(function (resolve, reject) {
+      var otmAPI =
+          "https://api.opentripmap.com/0.1/en/places/" +
+          method +
+          "?apikey=" +
+          apiKey;
+      if (query !== undefined) {
+          otmAPI += "&" + query;
+      }
+      fetch(otmAPI)
+          .then(response => response.json())
+          .then(data => resolve(data))
+          .catch(function (err) {
+              console.log("Fetch Error :-S", err);
+          });
+  });
 }
