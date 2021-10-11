@@ -5,8 +5,10 @@
 body{
 
   background-image: url("../pics/HERO1.jpg");
-  background-size: 250%;
-  background-image: no-repeat;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display:flex;
+  overflow:scroll;
 }
 
 
@@ -56,15 +58,16 @@ header h1 {
 .curve::before {
   content: "";
   display: block;
-  background: grey;
-  background: linear-gradient(90deg, rgb(181, 175, 204) 40%, rgba(94,173,255,1) 55%, rgb(202, 221, 219) 70%);
+  background: rgb(61, 61, 65);
+  /* background: linear-gradient(90deg, rgb(181, 175, 204) 40%, rgba(94,173,255,1) 55%, rgb(202, 221, 219) 70%); */
+  opacity: 0.5;
   position: absolute;
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
   border-radius: 150vw;
-  width: 300vw;
-  height: 300vw;
+  width: 250vw;
+  height: 250vw;
   z-index: -1;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
@@ -111,6 +114,12 @@ a {
   margin: 0 auto;
   width: 20em;
   padding-bottom: 10px;
+}
+
+.search-bar {
+  width: 15em;
+  transition: 0.7s;
+  text-align: left;
 }
 
 .input-group-text {
@@ -250,14 +259,17 @@ a {
     margin: 0;
   }
 
-  .search-bar {
-    width: 15em;
-    transition: 0.7s;
-    text-align: left;
-  }
+
 
   .curve {
     padding-left: 0.5em;
     padding-right: 0.5em;
   }
+
+  .curveP
+  {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight:bold;
+    width: 25%
+    }
 }

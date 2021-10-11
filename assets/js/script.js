@@ -3,11 +3,15 @@ const cityNameInput = document.getElementById("city-input");
 const cityResultsContainer = document.getElementById("c19-CR");
 const history = JSON.parse(window.localStorage.getItem("searchHistory"))|| []
 
+
 let cityData = {};
 let covidData = {};
+let lat
+let lon
+let formattedAddress
 
 const options = {
-  fields: ["address_components", "geometry"],
+  fields: ["formatted_address", "address_components", "geometry"],
   strictBounds: false,
   types: ["(cities)"],
   componentRestrictions: {
@@ -29,10 +33,18 @@ const autocomplete = new google.maps.places.Autocomplete(cityNameInput, options)
 
 autocomplete.addListener("place_changed", () => {
   const place = autocomplete.getPlace();
+  lat=place.geometry.location.lat()
+  long=place.geometry.location.lng();
+  formattedAddress=place.formatted_address();
+  console.log(formattedAddress);
 
   if (!place.geometry || !place.geometry.location) {
     return;
   }
+
+  getWeatherData(cityData.lat, cityData.lon)
+  getPOI(cityData.lat, cityData.lon)
+
 console.log(cityNameInput.value)
   storeCityData(place);
 
@@ -78,6 +90,7 @@ function storeCityData(data) {
     }
   }
   getCountyData(cityData.lat, cityData.lon, getCovidData);
+  
 }
 
 function getCountyData(lat, lon, callback) {
@@ -344,3 +357,20 @@ $(window).on("resize", function () {
 setElements();
 
 //getLatLon();
+
+function getWeatherInfo(lat, lon)
+{
+
+    //Call Open weather API
+    fetch ('https://api.openweathermap.org/data/2.5/onecall?lat='+lat+'&lon='+lon+'&exclude={part}&appid=e683bb5b3350b94a5810f002cf133809&units=imperial')
+
+    .then(response => response.json())
+    .then(data => {
+       console.log(data);
+
+       let temp= document.getElementById("temp").textContent='Temp: '+data['current']['temp'];
+       let humidity1= document.getElementById("humidity").textContent='Hum: '+data['current']['humidity'];
+       let humidity= document.getElementById("wind").textContent='Wind: '+ data['current']['wind_speed'];
+    })
+    .catch(err => alert(err))
+}
