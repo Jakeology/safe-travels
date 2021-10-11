@@ -372,13 +372,6 @@ function setElements() {
     $("#x2").addClass("d-none");
     $("#x1").removeClass("d-none");
   }
-  if ($(window).width() <= 701) {
-    $("#title").css("fontSize", "3.5em").css("transition", "0.6s");
-  } else {
-    if ($(window).width() > 701) {
-      $("#title").css("fontSize", "5em").css("transition", "0.6s");
-    }
-  }
   if ($(window).width() <= 686) {
     $(".other-results").removeClass("d-flex");
   } else {
@@ -386,14 +379,19 @@ function setElements() {
   }
   if ($(window).width() <= 536) {
     $(".top-row").removeClass("d-flex justify-content-between").addClass("d- block justify-content-center");
-    $("#title").css("fontSize", "1.75em").css("transition", "0.6s");
   } else {
     $(".top-row").addClass("d-flex justify-content-between").removeClass("d-block justify-content-center");
-    if ($(window).width() > 536 && $(window).width() < 701) {
-      $("#title").css("fontSize", "3.5em").css("transition", "0.6s");
-    }
   }
 }
+
+$(window).on("scroll", function () {
+    if($(document).scrollTop() > 0) {
+    $(".curve").css("padding", "0.1em 0.5em 1em").css("transition", "0.25s");
+  } else {
+    $(".curve").css("padding", "2em 0.5em 1.5em").css("transition", "0.25s");
+    $(".curve").css("padding-bottom", "4em");
+  }
+});
 
 $(window).on("resize", function () {
   setElements();

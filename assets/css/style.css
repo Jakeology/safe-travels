@@ -19,7 +19,7 @@ main {
 header h1 {
   color: white;
   padding-top: 0.4em;
-  font-size: 5em;
+  font-size: calc(100% + 3vw + 0.5vh);
   text-align: center;
   font-family: "Cinzel Decorative", cursive;
   font-weight: 900;
@@ -36,7 +36,7 @@ header {
   text-align: center;
   position: relative;
   overflow: hidden;
-  padding: 2em;
+  padding: 2em 0.5em 1.5em;
   width: 100%;
   z-index: 2;
   padding-bottom: 4em;
@@ -248,9 +248,9 @@ a {
   }
 }
 @media screen and (max-width: 696px) {
-  .curve {
+  /* .curve {
     padding: 0.25em 2em 2em;
-  }
+  } */
 }
 
 @media screen and (max-width: 686px) {
@@ -267,6 +267,11 @@ a {
   .covid-city-title {
     text-align: center;
   }
+
+  .forecast-header {
+    padding-left: 0;
+    text-align: center;
+  }
 }
 
 @media screen and (max-width: 536px) {
@@ -281,9 +286,5 @@ a {
 
   .form-control {
     padding-left: 2.25em;
-  }
-
-  .curve {
-    padding: 0.25em 0.5em 1.5em;
   }
 }
