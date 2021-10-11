@@ -2,6 +2,14 @@ const bodyContainer = document.body;
 const cityNameInput = document.getElementById("city-input");
 const cityResultsContainer = document.getElementById("c19-CR");
 const history = JSON.parse(window.localStorage.getItem("searchHistory"))|| []
+const apiKey123 = "5ae2e3f221c38a28845f05b6fcf2c7d719eb9536c12ac8943fef8ea8"; //opentravel
+const nextBtn = document.getElementById("next");
+const pageLength = 3; // number of objects per page
+
+
+let offset = 0; // offset from first object in the list
+let count; // total objects count
+let cityPlace, holdCity;
 
 
 let cityData = {};
@@ -20,13 +28,11 @@ const options = {
 };
 // local storage - persistence feature
 function searchHistory (cityNameInput){
-  var listitem= $("<li>").addClass("list-group-item").text(cityNameInput)
+  var listitem= $("<li>").addClass("list-group-item").text(cityNameInput +holdCity)
 console.log(cityNameInput.value)
   $("#searchHistory").append(listitem)
 
 }
-
-
 
 
 const autocomplete = new google.maps.places.Autocomplete(cityNameInput, options);
@@ -35,20 +41,32 @@ autocomplete.addListener("place_changed", () => {
   const place = autocomplete.getPlace();
   lat=place.geometry.location.lat()
   long=place.geometry.location.lng();
-  formattedAddress=place.formatted_address();
-  console.log(formattedAddress);
+  // formattedAddress=place.formatted_address();
+  // console.log(formattedAddress);
 
   if (!place.geometry || !place.geometry.location) {
     return;
   }
 
-  getWeatherData(cityData.lat, cityData.lon)
-  getPOI(cityData.lat, cityData.lon)
-
-console.log(cityNameInput.value)
-  storeCityData(place);
-
+ 
   
+
+  console.log(cityNameInput.value)
+  storeCityData(place);
+  getWeatherInfo(cityData.lat, cityData.lon, cityData.city)
+ 
+  apiGet("geoname", "name=" + cityData.city+', '+cityData.state).then(function (data) {
+    let message = "Name not found";
+    if (data.status == "OK") {
+        message = data.name; //+ ", " + getCountryName(data.country);
+        lon = data.lon;
+        lat = data.lat;
+        console.log(lon, lat)
+        firstLoad();
+    }
+    document.getElementById("info").innerHTML = `${message}`;
+});
+// event.preventDefault();
 });
 
 console.log(autocomplete)
@@ -127,10 +145,10 @@ function getCovidData() {
       } else {
         alert("Error");
       }
-      searchHistory(cityNameInput.value)
-      history.push(cityNameInput.value)
-      //searchWeather(cityNameInput.value) look out for if autocomplte messes up weather search
-window.localStorage.setItem("searchHistory", JSON.stringify(history))
+//       searchHistory(cityNameInput.value)
+//       history.push(cityNameInput.value)
+//       //searchWeather(cityNameInput.value) look out for if autocomplte messes up weather search
+// window.localStorage.setItem("searchHistory", JSON.stringify(history))
 
     })
     .catch(function (error) {
@@ -138,10 +156,10 @@ window.localStorage.setItem("searchHistory", JSON.stringify(history))
     });
 }
 
-for (var i = 0; i< history.length; i++){
+// for (var i = 0; i< history.length; i++){
 
-  searchHistory(history[i])
-} 
+//   searchHistory(history[i])
+// } 
 
 //place weather here searchWeather()
 
@@ -358,7 +376,7 @@ setElements();
 
 //getLatLon();
 
-function getWeatherInfo(lat, lon)
+function getWeatherInfo(lat, lon, city)
 {
 
     //Call Open weather API
@@ -366,11 +384,151 @@ function getWeatherInfo(lat, lon)
 
     .then(response => response.json())
     .then(data => {
-       console.log(data);
-
-       let temp= document.getElementById("temp").textContent='Temp: '+data['current']['temp'];
-       let humidity1= document.getElementById("humidity").textContent='Hum: '+data['current']['humidity'];
-       let humidity= document.getElementById("wind").textContent='Wind: '+ data['current']['wind_speed'];
+       console.log(data); 
+       let weather=document.getElementById("weather").textContent="Check out the weather forecast in "+ city
+       let temp= document.getElementById("temp").textContent='Temp: '+data['current']['temp']+'*F';
+       let humidity= document.getElementById("humidity").textContent='Hum: '+data['current']['humidity'];
+       let wind= document.getElementById("wind").textContent='Wind: '+ data['current']['wind_speed']+'mph';
     })
     .catch(err => alert(err))
 }
+nextBtn.addEventListener("click", function() {
+  offset += pageLength;
+  loadList();
+});
+
+function firstLoad() {
+    apiGet(
+        "radius",
+        `radius=1000&limit=${pageLength}&offset=${offset}&lon=${lon}&lat=${lat}&rate=2&format=count`
+    ).then(function (data) {
+        count = data.count;
+        offset = 0;
+        document.getElementById(
+            "info"
+        ).innerHTML += `<p>${count} interesting places for you to visit.  Plan your trip.</p>`;
+
+        loadList();
+    });
+}
+
+nextBtn.addEventListener("click", function() {
+  debugger
+  offset += pageLength;
+  loadList();
+});
+
+function loadList() {
+    apiGet(
+        "radius",
+        `radius=1000&limit=${pageLength}&offset=${offset}&lon=${lon}&lat=${lat}&rate=2&format=json`
+    ).then(function (data) {
+        //debugger
+        for(let i=0; i < data.length; i++ ){
+         let xid=data[i].xid;  
+         let name=data[i].name; 
+        getPOI(xid, i, name);
+
+        }
+       // let totalCount=offset+pageLength;
+
+        if (count < offset + pageLength) {
+            nextBtn.style.visbility = "hidden";
+        } else {
+            nextBtn.style.visibility = "visible";
+            nextBtn.innerText = `Next (${offset + pageLength} of ${count})`;
+        }
+    });
+}
+
+function apiGet(method, query) {
+    return new Promise(function (resolve, reject) {
+        var otmAPI =
+            "https://api.opentripmap.com/0.1/en/places/" +
+            method +
+            "?apikey=" +
+            apiKey123;
+        if (query !== undefined) {
+            otmAPI += "&" + query;
+        }
+        fetch(otmAPI)
+            .then(response => response.json())
+            .then(data => resolve(data))
+            .catch(function (err) {
+                console.log("Fetch Error :-S", err);
+            });
+    });
+}
+
+// function onShowPOI(data) {
+//     // let poi = document.getElementById("poi");
+//     // poi.innerHTML = "";
+//     if (data.preview) {
+//       poi.innerHTML += `<img src="${data.preview.source}">`;
+//     }
+//     poi.innerHTML += data.wikipedia_extracts
+//       ? data.wikipedia_extracts.html
+//       : data.info
+//       ? data.info.descr
+//       : "No description";
+
+//     poi.innerHTML += `<p><a target="_blank" href="${data.otm}">Show more at OpenTripMap</a></p>`;
+//   }
+
+function getPOI(x, i, name){
+    apiGet("xid/" + x).then(function (data){
+
+    let item=document.createElement("li");
+    //let imgPOI=document.createElement("img");
+    
+    
+   // item.classList.add("poi");
+    item.classList.add("list-group-item");
+    item.style.fontWeight=12;
+    item.style.padding=0;
+    
+    
+ 
+   // imgPOI.classList.add("img-fluid")   
+   
+
+    document.querySelector("#places").appendChild(item);
+   // document.querySelector(".poi").appendChild(imgPOI);
+   // document.querySelector(".list-group-item").appendChild(imgPOI);
+
+    if (data.preview) {
+       // debugger
+       // imgPOI.src=data.preview.source;
+        item.innerHTML += `<p><a id="cp" target="_blank" href="${data.otm}"><img height="75px" width="75px" src="${data.preview.source}"></a>"${name}"</p>`;
+        item.style.marginBottom="2px";
+        item.style.marginTop="2px";
+        //item.innerHTML+=`<p><a target="_blank" href="${data.otm}">Click to Copy:</a></p>`;
+        //item.innerHTML+=data.preview.height="55"
+        // imgPOI.src=data.preview.source;
+        // imgPOI.style.height="55px";
+        // imgPOI.style.width="55px";
+        cityPlace=document.getElementById("cp");
+        cityPlace.addEventListener("click", function() {
+        // console.log(item.innerHTML);
+        holdCity=name;
+
+        //local storage data
+        //debugger
+        searchHistory(cityNameInput.value)
+        history.push(cityNameInput.value)
+        //searchWeather(cityNameInput.value) look out for if autocomplte messes up weather search
+  window.localStorage.setItem("searchHistory", JSON.stringify(history))
+  for (var i = 0; i< history.length; i++){
+
+    searchHistory(history[i])
+  } 
+        });
+    }
+   
+});
+}
+const clear=document.getElementById("clear");
+clear.addEventListener("click", function() {
+  window.localStorage.clear();
+  
+});

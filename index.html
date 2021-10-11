@@ -19,7 +19,7 @@
      <header>
 
       <!-- local storage -->
-<ul id="searchHistory"></ul>
+
 
 <div class="curve">
 <h1 id="title">Safe Travels</h1>
@@ -40,7 +40,7 @@
   </header>
 
   <!-- local storage -->
-<ul id="searchHistory"></ul>
+
   <main>
     <div class="container-xxl">
         <div class="card risk-card-margin">
@@ -90,19 +90,23 @@
                 </div>
               </div>
             </div>
-            <div class="col-6 col-lg-4">
+            <div class="row align-items-start">
+              <div class="col">
               <div class="pop-card-margin">
                 
                     <h6>Population: <span id="population"></span></h6>
                   <h6>Total cases: <span id="cases"></span></h6>
                   <h6>Total deaths: <span id="deaths"></span></h6>
                 </div>
-              
+                </div>
+              <div class="col">
               <div id="x1" class="hos-card-margin">
                   <h6>Hospitalized: <span class="hospitalized"></span></h6>
                   <h6>Stable: <span class="stable-condition"></span></h6>
                   <h6>Critical: <span class="critical-condition"></span></h6>
                 </div>
+                </div>
+                <div class="col">
             <div id="x2" class="col-6 d-none">
               <div class="pop-card-margin">
                   <h6>Hospitalized: <span class="hospitalized"></span></h6>
@@ -110,13 +114,15 @@
                   <h6>Critical: <span class="critical-condition"></span></h6>
                 </div>
               </div>
+              </div>
           </div>
           </div>
           </div>
           </div>
-        
           <div class="container-xxl" style="margin-top: 1.126em;">
-            <div class="w-75 card">
+        <div class="row">
+          <div class="col">
+            <div class="card" style="width: 750px;">
               <img src="./assets/pics/city.jpeg" class="card-img-top" alt="Interesting things in the city">
               <div class="card-body">
                   <div id="info"></div>
@@ -124,25 +130,40 @@
                     
                     </ul>
               </div>
-              <a href="#" id="next" class="btn btn-primary" style="width:70px;">Next Page</a>
+              <a href="#" id="next" class="btn btn-primary" style="width: 200px;">Next Page</a>
             </div>
           </div>
-       
-              <div class="container-xxl" style="margin-top: 1.126em;">
-                <div class="w-25 card">
+       <div class="col">
+              <!--div class="container-xxl" style="margin-top: 1.126em;"-->
+                <div class="card" style="width: max-content;">
                   <div class="card-header">
-                    Weather Information
+                   <h3 style="font-family: Georgia, 'Times New Roman', Times, serif;">Weather Information</h3>
                   </div>
                   <div class="card-body">
                     <h5 class="card-title" id="weather">Check out the weather forecast for your destination.</h5>
                     <p class="card-text" id="temp">Temp:</p>
                     <p class="card-text" id="humidity">Humidity:</p>
                     <p class="card-text" id="wind">Wind speed:</p>
-
                   </div>
+                  </div>
+       </div>
                 </div>
               </div>
-          
+            </div>
+            <div class="container-xxl" style="margin-top: 1.126em;font-family: Georgia, 'Times New Roman', Times, serif;">
+            <div class="card" style="width: 55rem;">
+              <div class="card-header">
+              <h3>Trip Iteniary: Places to visit</h3>  
+              </div>
+              <ul id="searchHistory" class="list-group list-group-flush">
+                
+              </ul>
+              <div>
+                <a href="#" id="clear" class="pl-0 btn btn-primary" style="width: 200px; padding-right:0px; ">Clear Trip</a>
+           </div>
+            </div>
+            </div>
+          </div>
       
       
      

@@ -9,6 +9,7 @@ body{
   background-size: cover;
   display:flex;
   overflow:scroll;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 
