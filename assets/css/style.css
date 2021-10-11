@@ -1,14 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Roboto:wght@100;300;400;500;700;900&display=swap");
 
+/* background image need to adjust sizing and confirm with group on pic */
+
+body{
+
+  background-image: url("../pics/HERO1.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display:flex;
+  overflow:scroll;
+}
+
+
 :root {
   --primaryColor: white;
-  --textColor: #88ca97;
+  --textColor: #000000;
   --border-radius: 0.3rem;
 }
 
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 main {
@@ -16,16 +29,47 @@ main {
 }
 
 header h1 {
-  background-color: var(--primaryColor);
-  color: var(--textColor);
+  color: white;
   padding-top: 0.4em;
-  font-size: 4em;
+  font-size: 5em;
   text-align: center;
   font-family: "Cinzel Decorative", cursive;
   font-weight: 900;
 }
-header {
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.06);
+
+.transition-in {
+  font-size: 3em;
+  transition: 0.6s;
+}
+
+.transition-out {
+  font-size: 5em;
+  transition: 0.6s;
+}
+
+.curve {
+  color: white;
+  position: relative;
+  text-align: center;
+  padding: 3rem 2rem;
+  width: 100%;
+  z-index: 2;
+}
+.curve::before {
+  content: "";
+  display: block;
+  background: rgb(61, 61, 65);
+  /* background: linear-gradient(90deg, rgb(181, 175, 204) 40%, rgba(94,173,255,1) 55%, rgb(202, 221, 219) 70%); */
+  opacity: 0.5;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  border-radius: 150vw;
+  width: 250vw;
+  height: 250vw;
+  z-index: -1;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 a {
@@ -39,7 +83,8 @@ a {
 }
 
 .card-body {
-  border: 1px solid rgb(228, 228, 228);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f1f1f1;
   border-radius: 1em;
 }
 
@@ -69,6 +114,12 @@ a {
   margin: 0 auto;
   width: 20em;
   padding-bottom: 10px;
+}
+
+.search-bar {
+  width: 15em;
+  transition: 0.7s;
+  text-align: left;
 }
 
 .input-group-text {
@@ -201,11 +252,24 @@ a {
   .covid-city-title {
     text-align: center;
   }
-
 }
 
 @media screen and (max-width: 536px) {
   .vaccine-rate {
     margin: 0;
   }
+
+
+
+  .curve {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .curveP
+  {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight:bold;
+    width: 25%
+    }
 }

@@ -1,119 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
-    <link rel="stylesheet" type="text/css" href="./assets/css/loading-bar/loading-bar.css" />
-    <link rel="stylesheet" href="./assets/css/style.css" />
 
-    <title>SafeTravel - City Results</title>
-  </head>
-  <body>
-    <header>
-      <a href="./index.html"><h1>Safe Travels</h1></a>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+  <link rel="stylesheet" type="text/css" href="./assets/css/loading-bar/loading-bar.css" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
+
+  <title>SafeTravel</title>
+</head>
+
+<body>
+  <header>
+     <!-- navigation -->
+     <header>
+
+      <!-- local storage -->
+<ul id="searchHistory"></ul>
+
+<div class="curve">
+<h1 id="title">Safe Travels</h1>
+<div class="container-fluid" style="width: 50%;">
+<p style="font-family:Georgia, 'Times New Roman', Times, serif; font-weight: 600; font-size: medium;">This site is designed to create an experience were travelers can travel safely during COVID-19. Travelers input
+    desired destination, then information about COVID-19, main attractions, and the weather forecast near their destination will be displayed. 
+    </p>
+    <h3 style="font-family: Georgia, 'Times New Roman', Times, serif; font-weight: bold;">Enter desired destination:</h3></div>
       <div class="search-bar">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Search by City, State" id="city-input" />
+          <input type="text" class="form-control" placeholder="Type here..." id="city-input" style="font-family: Georgia, 'Times New Roman', Times, serif;" />
           <div class="input-group-append">
             <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></span>
           </div>
         </div>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <main>
-      <div class="container-xxl">
-        <div class="m-1 row d-flex justify-content-center">
-          <div class="col-12 col-lg-8">
-            <div class="card risk-card-margin">
-              <div class="card-header">
-                <div class="covid-city-title" id="c19-CT"></div>
-              </div>
-              <div class="card-body" id="t1">
-                <div class="top-row d-flex justify-content-between">
-                  <div id= "risk-level" class="risk-level">
-                    <div class="key">
-                      <div class="risk-key severe"></div>
-                      <div class="risk-key critical"></div>
-                      <div class="risk-key high"></div>
-                      <div class="risk-key medium"></div>
-                      <div class="risk-key low"></div>
-                    </div>
-
-                    <div class="risk-level-result">
-                      <div class="risk-title">
-                        <h6>Risk Level</h6>
-                      </div>
-                      <div id="c19-RL"></div>
-                    </div>
-                  </div>
-                  <div class="vaccine-rate" id="c19-VR">
-                    <h5 class="text-center">Vaccination Progress</h5>
-                    <div class="progress-bars">
-                      <div class="ldBar label-center" data-unit="%" data-preset="fan" data-value="0" id="PB-VR-1D"></div>
-                      <div class="ldBar label-center" data-unit="%" data-preset="fan" data-value="0" id="PB-VR-2D"></div>
-                    </div>
-                    <span class="vaccine-1d">1 dose</span>
-                    <span class="vaccine-2d">Fully Vaccinated</span>
-                  </div>
+  <!-- local storage -->
+<ul id="searchHistory"></ul>
+  <main>
+    <div class="container-xxl">
+        <div class="card risk-card-margin">
+          <div class="card-header">
+            <div class="covid-city-title" id="c19-CT"></div>
+          </div>
+          <div class="card-body" id="t1">
+            <div class="top-row d-flex justify-content-between">
+              <div id="risk-level" class="risk-level">
+                <div class="key">
+                  <div class="risk-key severe"></div>
+                  <div class="risk-key critical"></div>
+                  <div class="risk-key high"></div>
+                  <div class="risk-key medium"></div>
+                  <div class="risk-key low"></div>
                 </div>
-                <div class="bottom-row">
-                  <div class="other-results d-flex">
-                    <div class="daily-new-cases">
-                      <h5>Daily new cases</h5>
-                      <div id="DC"></div>
-                    </div>
-                    <div class="infection-rates">
-                      <h5>Infection rate</h5>
-                      <div id="IR"></div>
-                    </div>
-                    <div div class="positive-test-rates">
-                      <h5>Positive test rate</h5>
-                      <div id="PT"></div>
-                    </div>
+                <div class="risk-level-result">
+                  <div class="risk-title">
+                    <h6>Risk Level</h6>
                   </div>
+                  <div id="c19-RL"></div>
+                </div>
+              </div>
+              <div class="vaccine-rate" id="c19-VR">
+                <h5 class="text-center">Vaccination Progress</h5>
+                <div class="progress-bars">
+                  <div class="ldBar label-center" data-unit="%" data-preset="fan" data-value="0" id="PB-VR-1D"></div>
+                  <div class="ldBar label-center" data-unit="%" data-preset="fan" data-value="0" id="PB-VR-2D"></div>
+                </div>
+                <span class="vaccine-1d">1 dose</span>
+                <span class="vaccine-2d">Fully Vaccinated</span>
+              </div>
+            </div>
+            <div class="bottom-row">
+              <div class="other-results d-flex">
+                <div class="daily-new-cases">
+                  <h5>Daily new cases</h5>
+                  <div id="DC"></div>
+                </div>
+                <div class="infection-rates">
+                  <h5>Infection rate</h5>
+                  <div id="IR"></div>
+                </div>
+                <div div class="positive-test-rates">
+                  <h5>Positive test rate</h5>
+                  <div id="PT"></div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-6 col-lg-4">
-            <div class="card pop-card-margin">
-              <div class="card-body text-center">
-                <h6>Population: <span id="population"></span></h6>
-                <h6>Total cases: <span id="cases"></span></h6>
-                <h6>Total deaths: <span id="deaths"></span></h6>
+            <div class="col-6 col-lg-4">
+              <div class="pop-card-margin">
+                
+                    <h6>Population: <span id="population"></span></h6>
+                  <h6>Total cases: <span id="cases"></span></h6>
+                  <h6>Total deaths: <span id="deaths"></span></h6>
+                </div>
+              
+              <div id="x1" class="hos-card-margin">
+                  <h6>Hospitalized: <span class="hospitalized"></span></h6>
+                  <h6>Stable: <span class="stable-condition"></span></h6>
+                  <h6>Critical: <span class="critical-condition"></span></h6>
+                </div>
+            <div id="x2" class="col-6 d-none">
+              <div class="pop-card-margin">
+                  <h6>Hospitalized: <span class="hospitalized"></span></h6>
+                  <h6>Stable: <span class="stable-condition"></span></h6>
+                  <h6>Critical: <span class="critical-condition"></span></h6>
+                </div>
               </div>
-            </div>
-            <div id="x1" class="card hos-card-margin">
-              <div class="card-body text-center">
-                <h6>Hospitalized: <span class="hospitalized"></span></h6>
-                <h6>Stable: <span class="stable-condition"></span></h6>
-                <h6>Critical: <span class="critical-condition"></span></h6>
+          </div>
+          </div>
+          </div>
+          </div>
+        
+          <div class="container-xxl" style="margin-top: 1.126em;">
+            <div class="w-75 card">
+              <img src="./assets/pics/city.jpeg" class="card-img-top" alt="Interesting things in the city">
+              <div class="card-body">
+                  <div id="info"></div>
+                  <ul id="places" class="list-group list-group-flush" style="border: solid  rgb(61, 61, 65);">
+                    
+                    </ul>
               </div>
+              <a href="#" id="next" class="btn btn-primary" style="width:70px;">Next Page</a>
             </div>
           </div>
-          <div id="x2" class="col-6 d-none">
-            <div class="card pop-card-margin">
-              <div class="card-body text-center">
-                <h6>Hospitalized: <span class="hospitalized"></span></h6>
-                <h6>Stable: <span class="stable-condition"></span></h6>
-                <h6>Critical: <span class="critical-condition"></span></h6>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
+       
+              <div class="container-xxl" style="margin-top: 1.126em;">
+                <div class="w-25 card">
+                  <div class="card-header">
+                    Weather Information
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title" id="weather">Check out the weather forecast for your destination.</h5>
+                    <p class="card-text" id="temp">Temp:</p>
+                    <p class="card-text" id="humidity">Humidity:</p>
+                    <p class="card-text" id="wind">Wind speed:</p>
 
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="https://unpkg.com/tippy.js@6"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1I-mViDpNAowaTQE5sr3IrZeILM5esfw&libraries=places"></script>
-    <script type="text/javascript" src="./assets/js/loading-bar/loading-bar.js"></script>
-    <script type="text/javascript" src="./assets/js/script.js"></script>
-  </body>
+                  </div>
+                </div>
+              </div>
+          
+      
+      
+     
+  </main>
+
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1I-mViDpNAowaTQE5sr3IrZeILM5esfw&libraries=places"></script>
+  <script type="text/javascript" src="./assets/js/loading-bar/loading-bar.js"></script>
+  <script type="text/javascript" src="./assets/js/script.js"></script>
+</body>
+
 </html>

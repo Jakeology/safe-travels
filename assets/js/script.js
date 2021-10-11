@@ -1,33 +1,62 @@
 const bodyContainer = document.body;
 const cityNameInput = document.getElementById("city-input");
 const cityResultsContainer = document.getElementById("c19-CR");
+const history = JSON.parse(window.localStorage.getItem("searchHistory"))|| []
+
 
 let cityData = {};
 let covidData = {};
+let lat
+let lon
+let formattedAddress
 
 const options = {
-  fields: ["address_components", "geometry"],
+  fields: ["formatted_address", "address_components", "geometry"],
   strictBounds: false,
   types: ["(cities)"],
   componentRestrictions: {
     country: "us",
   },
 };
+// local storage - persistence feature
+function searchHistory (cityNameInput){
+  var listitem= $("<li>").addClass("list-group-item").text(cityNameInput)
+console.log(cityNameInput.value)
+  $("#searchHistory").append(listitem)
+
+}
+
+
+
 
 const autocomplete = new google.maps.places.Autocomplete(cityNameInput, options);
 
 autocomplete.addListener("place_changed", () => {
   const place = autocomplete.getPlace();
+  lat=place.geometry.location.lat()
+  long=place.geometry.location.lng();
+  formattedAddress=place.formatted_address();
+  console.log(formattedAddress);
 
   if (!place.geometry || !place.geometry.location) {
     return;
   }
 
+  getWeatherData(cityData.lat, cityData.lon)
+  getPOI(cityData.lat, cityData.lon)
+
+console.log(cityNameInput.value)
   storeCityData(place);
+
+  
 });
+
+console.log(autocomplete)
 
 function storeCityData(data) {
   const components = data;
+
+  console.log(data);
 
   //Stores the city latatuide and longitude to cityData Object
   cityData["lat"] = components.geometry.location.lat();
@@ -61,6 +90,7 @@ function storeCityData(data) {
     }
   }
   getCountyData(cityData.lat, cityData.lon, getCovidData);
+  
 }
 
 function getCountyData(lat, lon, callback) {
@@ -97,13 +127,26 @@ function getCovidData() {
       } else {
         alert("Error");
       }
+      searchHistory(cityNameInput.value)
+      history.push(cityNameInput.value)
+      //searchWeather(cityNameInput.value) look out for if autocomplte messes up weather search
+window.localStorage.setItem("searchHistory", JSON.stringify(history))
+
     })
     .catch(function (error) {
       alert("Unable to connect to API");
     });
 }
 
+for (var i = 0; i< history.length; i++){
+
+  searchHistory(history[i])
+} 
+
+//place weather here searchWeather()
+
 function displayCovidData() {
+
   const cityTitle = document.getElementById("c19-CT");
 
   cityTitle.textContent = cityData.city + ", " + cityData.state + " (" + cityData.county_name + ")";
@@ -128,10 +171,10 @@ function displayCovidData() {
   const vaccineProgress2D = covidData.metrics.vaccinationsCompletedRatio * 100;
 
   let VR1D = new ldBar("#PB-VR-1D");
-  VR1D.set(Math.round(vaccineProgress1D * 10) / 10, true);
+  VR1D.set(roundDecimal(vaccineProgress1D), true);
 
   let VR2D = new ldBar("#PB-VR-2D");
-  VR2D.set(Math.round(vaccineProgress2D * 10) / 10, true);
+  VR2D.set(roundDecimal(vaccineProgress2D), true);
 
   const dailyCasesEl = document.getElementById("DC");
 
@@ -145,7 +188,7 @@ function displayCovidData() {
 
   dcDiv.className = "risk-result " + getDailyCaseLevel;
   dcSpan.className = "bold";
-  dcSpan.textContent = covidData.metrics.caseDensity;
+  dcSpan.textContent = roundDecimal(covidData.metrics.caseDensity);
   dcSpan2.className = "small";
   dcSpan2.textContent = " per 100K";
 
@@ -164,7 +207,7 @@ function displayCovidData() {
 
   irDiv.className = "risk-result " + getInfectinRateLevel;
   irSpan.className = "bold";
-  irSpan.textContent = covidData.metrics.infectionRate + "%";
+  irSpan.textContent = roundDecimal(covidData.metrics.infectionRate) + "%";
 
   infectionRateEl.appendChild(irDiv);
   infectionRateEl.appendChild(irSpan);
@@ -182,7 +225,7 @@ function displayCovidData() {
 
   ptDiv.className = "risk-result " + getPositiveTestLevel;
   ptSpan.className = "bold";
-  ptSpan.textContent = getPositiveTestNum + "%";
+  ptSpan.textContent = roundDecimal(getPositiveTestNum) + "%";
 
   positiveRateEl.appendChild(ptDiv);
   positiveRateEl.appendChild(ptSpan);
@@ -197,8 +240,12 @@ function displayCovidData() {
   deathsEl.textContent = numberWithCommas(covidData.actuals.deaths);
 
   const hospitalizedEl = document.getElementsByClassName("hospitalized");
-  hospitalizedEl[0].textContent = numberWithCommas(covidData.actuals.hospitalBeds.currentUsageCovid + covidData.actuals.icuBeds.currentUsageCovid);
-  hospitalizedEl[1].textContent = numberWithCommas(covidData.actuals.hospitalBeds.currentUsageCovid + covidData.actuals.icuBeds.currentUsageCovid);
+  hospitalizedEl[0].textContent = numberWithCommas(
+    covidData.actuals.hospitalBeds.currentUsageCovid + covidData.actuals.icuBeds.currentUsageCovid
+  );
+  hospitalizedEl[1].textContent = numberWithCommas(
+    covidData.actuals.hospitalBeds.currentUsageCovid + covidData.actuals.icuBeds.currentUsageCovid
+  );
 
   const stableEl = document.getElementsByClassName("stable-condition");
   stableEl[0].textContent = numberWithCommas(covidData.actuals.hospitalBeds.currentUsageCovid);
@@ -212,7 +259,14 @@ function displayCovidData() {
 //function to place commas in a number
 //SOURCE: (https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript)
 function numberWithCommas(x) {
+  if (x === null || x === 0) {
+    return "N/A";
+  }
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function roundDecimal(num) {
+  return Math.round(num * 10) / 10;
 }
 
 function getRiskResult(type, num) {
@@ -288,8 +342,11 @@ function setElements() {
   }
   if ($(window).width() <= 536) {
     $(".top-row").removeClass("d-flex justify-content-between").addClass("d- block justify-content-center");
+    $("#title").addClass("transition-in").removeClass("transition-out");
+    
   } else {
     $(".top-row").addClass("d-flex justify-content-between").removeClass("d-block justify-content-center");
+    $("#title").addClass("transition-out").removeClass("transition-in");
   }
 }
 
@@ -300,3 +357,20 @@ $(window).on("resize", function () {
 setElements();
 
 //getLatLon();
+
+function getWeatherInfo(lat, lon)
+{
+
+    //Call Open weather API
+    fetch ('https://api.openweathermap.org/data/2.5/onecall?lat='+lat+'&lon='+lon+'&exclude={part}&appid=e683bb5b3350b94a5810f002cf133809&units=imperial')
+
+    .then(response => response.json())
+    .then(data => {
+       console.log(data);
+
+       let temp= document.getElementById("temp").textContent='Temp: '+data['current']['temp'];
+       let humidity1= document.getElementById("humidity").textContent='Hum: '+data['current']['humidity'];
+       let humidity= document.getElementById("wind").textContent='Wind: '+ data['current']['wind_speed'];
+    })
+    .catch(err => alert(err))
+}
