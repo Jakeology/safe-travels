@@ -11,10 +11,10 @@ A site designed to create an experience for travelers to travel safely during CO
 https://sdb14.github.io/safe-travels/
 
 ## Screenshots
-![SafeTravelsApp](https://github.com/SDB14/WorkDayScheduler/blob/main/Capture1.PNG)
+![SafeTravelsApp](https://github.com/Jakeology/safe-travels/blob/user/sarita/assets/pics/Screenshot1.PNG)
 
 
-![Local Storage](https://github.com/SDB14/WorkDayScheduler/blob/main/Capture2.PNG)
+![Local Storage](https://github.com/Jakeology/safe-travels/blob/user/sarita/assets/pics/Screenshot2.PNG)
 
 
 
