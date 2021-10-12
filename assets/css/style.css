@@ -2,13 +2,14 @@
 
 :root {
   --primaryColor: white;
-  --textColor: #88ca97;
+  --textColor: #000000;
   --border-radius: 0.3rem;
 }
 
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 main {
@@ -16,35 +17,71 @@ main {
 }
 
 header h1 {
-  background-color: var(--primaryColor);
-  color: var(--textColor);
+  color: white;
   padding-top: 0.4em;
-  font-size: 4em;
+  font-size: calc(100% + 3vw + 0.5vh);
   text-align: center;
   font-family: "Cinzel Decorative", cursive;
   font-weight: 900;
+  white-space: nowrap;
 }
+
 header {
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.06);
+  position: sticky;
+  top: 0;
+}
+
+.curve {
+  color: white;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding: 2em 0.5em 1.5em;
+  width: 100%;
+  z-index: 2;
+  padding-bottom: 4em;
+}
+.curve::before {
+  content: "";
+  display: block;
+  background: rgb(109,80,214);
+  background: linear-gradient(90deg, rgba(109,80,214,1) 40%, rgba(94,173,255,1) 55%, rgba(29,253,224,1) 70%);
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  border-radius: 150vw;
+  width: 300vw;
+  height: 300vw;
+  z-index: -1;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 15px;
 }
 
 a {
   text-decoration: none;
 }
 
-.card-header {
+.covid-card-header {
   height: 50px;
   background-color: white;
   border: none;
 }
 
+.card-header {
+  background-color: white;
+  border: none;
+}
+
 .card-body {
-  border: 1px solid rgb(228, 228, 228);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f1f1f1;
   border-radius: 1em;
 }
 
 .card {
   border: none;
+  z-index: -2;
 }
 
 .risk-card-margin {
@@ -57,12 +94,6 @@ a {
 
 .hos-card-margin {
   margin-top: 10px;
-}
-
-.content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
 }
 
 .search-bar {
@@ -87,6 +118,10 @@ a {
 
 .top-row {
   flex-wrap: wrap;
+}
+
+.bottom-row {
+  padding-bottom: 5px;
 }
 
 .risk-level {
@@ -123,10 +158,18 @@ a {
   margin-right: 10px;
 }
 
-.low {
-  background-color: rgb(146, 199, 0);
+.round-top {
+  border-top-right-radius: 25px;
+  border-top-left-radius: 25px;
+}
+
+.round-bottom {
   border-bottom-right-radius: 25px;
   border-bottom-left-radius: 25px;
+}
+
+.low {
+  background-color: rgb(146, 199, 0);
 }
 
 .medium {
@@ -143,8 +186,6 @@ a {
 
 .severe {
   background-color: rgb(117, 0, 0);
-  border-top-right-radius: 25px;
-  border-top-left-radius: 25px;
 }
 
 .vaccine-1d,
@@ -181,10 +222,35 @@ a {
   font-weight: 900;
 }
 
+.weather {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.weather-box {
+  width: 12em;
+  height: 15em;
+  margin: 0 0.5em 1em 0.5em;
+}
+
+.forecast-header {
+  padding-left: 1em;
+  font-size: 1.5em;
+  padding-bottom: 20px;
+}
+
+
+
 @media screen and (max-width: 991px) {
   .pop-card-margin {
     margin-top: 1em;
   }
+}
+@media screen and (max-width: 696px) {
+  /* .curve {
+    padding: 0.25em 2em 2em;
+  } */
 }
 
 @media screen and (max-width: 686px) {
@@ -202,10 +268,23 @@ a {
     text-align: center;
   }
 
+  .forecast-header {
+    padding-left: 0;
+    text-align: center;
+  }
 }
 
 @media screen and (max-width: 536px) {
   .vaccine-rate {
     margin: 0;
+  }
+
+  .search-bar {
+    width: 15em;
+    transition: 0.7s;
+  }
+
+  .form-control {
+    padding-left: 2.25em;
   }
 }

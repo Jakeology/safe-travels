@@ -9,16 +9,18 @@
     <link rel="stylesheet" type="text/css" href="./assets/css/loading-bar/loading-bar.css" />
     <link rel="stylesheet" href="./assets/css/style.css" />
 
-    <title>SafeTravel - City Results</title>
+    <title>SafeTravel</title>
   </head>
   <body>
     <header>
-      <a href="./index.html"><h1>Safe Travels</h1></a>
-      <div class="search-bar">
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Search by City, State" id="city-input" />
-          <div class="input-group-append">
-            <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></span>
+      <div class="curve">
+        <h1 id="title">Safe<i class="bi bi-shield-lock"></i>Travel</h1>
+        <div class="search-bar">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Search by City, State" id="city-input" />
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></span>
+            </div>
           </div>
         </div>
       </div>
@@ -26,21 +28,21 @@
 
     <main>
       <div class="container-xxl">
-        <div class="m-1 row d-flex justify-content-center">
+        <div class="m-1 row d-flex justify-content-center mb-5">
           <div class="col-12 col-lg-8">
             <div class="card risk-card-margin">
-              <div class="card-header">
+              <div class="covid-card-header">
                 <div class="covid-city-title" id="c19-CT"></div>
               </div>
               <div class="card-body" id="t1">
                 <div class="top-row d-flex justify-content-between">
-                  <div id= "risk-level" class="risk-level">
+                  <div id="risk-level" class="risk-level">
                     <div class="key">
-                      <div class="risk-key severe"></div>
+                      <div class="risk-key severe round-top"></div>
                       <div class="risk-key critical"></div>
                       <div class="risk-key high"></div>
                       <div class="risk-key medium"></div>
-                      <div class="risk-key low"></div>
+                      <div class="risk-key low round-bottom"></div>
                     </div>
 
                     <div class="risk-level-result">
@@ -101,6 +103,48 @@
                 <h6>Hospitalized: <span class="hospitalized"></span></h6>
                 <h6>Stable: <span class="stable-condition"></span></h6>
                 <h6>Critical: <span class="critical-condition"></span></h6>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <h3 class="forecast-header">5 Day Forecast:</h3>
+            <div class="weather">
+              <div class="card">
+                <div id="forecast-header-0" class="card-header text-center"></div>
+                <div class="card-body weather-box">
+                  <div id="forecast-icon-0" class="text-center"></div>
+                  <div id="forecast-body-0" class="text-center"></div>
+                </div>
+              </div>
+              <div class="card">
+                <div id="forecast-header-1" class="card-header text-center"></div>
+                <div class="card-body weather-box">
+                  <div id="forecast-icon-1" class="text-center"></div>
+                  <div id="forecast-body-1" class="text-center"></div>
+                </div>
+              </div>
+              <div class="card">
+                <div id="forecast-header-2" class="card-header text-center"></div>
+                <div class="card-body weather-box">
+                  <div id="forecast-icon-2" class="text-center"></div>
+                  <div id="forecast-body-2" class="text-center"></div>
+                </div>
+              </div>
+              <div class="card">
+                <div id="forecast-header-3" class="card-header text-center"></div>
+                <div class="card-body weather-box">
+                  <div id="forecast-icon-3" class="text-center"></div>
+                  <div id="forecast-body-3" class="text-center"></div>
+                </div>
+              </div>
+              <div class="card">
+                <div id="forecast-header-4" class="card-header text-center"></div>
+                <div class="card-body weather-box">
+                  <div id="forecast-icon-4" class="text-center"></div>
+                  <div id="forecast-body-4" class="text-center"></div>
+                </div>
               </div>
             </div>
           </div>
