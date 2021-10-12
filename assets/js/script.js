@@ -4,6 +4,7 @@ const cityResultsContainer = document.getElementById("c19-CR");
 
 let cityData = {};
 let covidData = {};
+let weatherData = {};
 
 const options = {
   fields: ["address_components", "geometry"],
@@ -28,6 +29,8 @@ autocomplete.addListener("place_changed", () => {
 
 function storeCityData(data) {
   const components = data;
+
+  console.log(data);
 
   //Stores the city latatuide and longitude to cityData Object
   cityData["lat"] = components.geometry.location.lat();
@@ -61,6 +64,7 @@ function storeCityData(data) {
     }
   }
   getCountyData(cityData.lat, cityData.lon, getCovidData);
+  getWeatherData(cityData.lat, cityData.lon);
 }
 
 function getCountyData(lat, lon, callback) {
@@ -103,6 +107,80 @@ function getCovidData() {
     });
 }
 
+function getWeatherData(lat, lon) {
+  var apiUrl =
+    "https://api.openweathermap.org/data/2.5/onecall?lat=" +
+    lat +
+    "&lon=" +
+    lon +
+    "&exclude=minutely,hourly&units=imperial&appid=05d022c22c687fddb635d7cf8a4c9afb";
+
+  fetch(apiUrl)
+    .then(function (response) {
+      if (response.ok) {
+        response.json().then(function (data) {
+          weatherData = data;
+          displayFutureForecast();
+        });
+      } else {
+        alert("Error: Can't find weather");
+      }
+    })
+    .catch(function (error) {
+      alert("Unable to connect to OpenWeatherAPI");
+    });
+}
+
+function displayFutureForecast() {
+  for (i = 0; i < 5; i++) {
+    var header = document.getElementById("forecast-header-" + i);
+    var date = moment.unix(weatherData.daily[i].dt).format("MM/DD/YYYY");
+    header.textContent = date;
+
+    var icon = document.getElementById("forecast-icon-" + i);
+
+    if (icon) {
+      icon.innerHTML = "";
+    }
+
+    var weatherIconId = weatherData.daily[i].weather[0].icon;
+
+    var img = document.createElement("img");
+    img.src = "https://openweathermap.org/img/w/" + weatherIconId + ".png";
+    icon.appendChild(img);
+
+    var p = document.createElement("p");
+    p.textContent = weatherData.daily[i].weather[0].main;
+    icon.appendChild(p);
+
+    var body = document.getElementById("forecast-body-" + i);
+
+    if (body) {
+      body.innerHTML = "";
+    }
+
+    var temp = document.createElement("h5");
+    temp.className = "card-text";
+    temp.textContent =
+      "H:" +
+      Math.round(weatherData.daily[i].feels_like.day) +
+      "° L:" +
+      Math.round(weatherData.daily[i].feels_like.night) +
+      "°";
+    body.appendChild(temp);
+
+    var wind = document.createElement("h5");
+    wind.className = "card-text";
+    wind.textContent = "Wind: " + Math.round(10 * weatherData.daily[i].wind_speed) / 10 + "MPH";
+    body.appendChild(wind);
+
+    var humidity = document.createElement("h5");
+    humidity.className = "card-text";
+    humidity.textContent = "Humidity: " + weatherData.daily[i].humidity + "%";
+    body.appendChild(humidity);
+  }
+}
+
 function displayCovidData() {
   const cityTitle = document.getElementById("c19-CT");
 
@@ -128,10 +206,10 @@ function displayCovidData() {
   const vaccineProgress2D = covidData.metrics.vaccinationsCompletedRatio * 100;
 
   let VR1D = new ldBar("#PB-VR-1D");
-  VR1D.set(Math.round(vaccineProgress1D * 10) / 10, true);
+  VR1D.set(roundDecimal(vaccineProgress1D), true);
 
   let VR2D = new ldBar("#PB-VR-2D");
-  VR2D.set(Math.round(vaccineProgress2D * 10) / 10, true);
+  VR2D.set(roundDecimal(vaccineProgress2D), true);
 
   const dailyCasesEl = document.getElementById("DC");
 
@@ -145,7 +223,7 @@ function displayCovidData() {
 
   dcDiv.className = "risk-result " + getDailyCaseLevel;
   dcSpan.className = "bold";
-  dcSpan.textContent = covidData.metrics.caseDensity;
+  dcSpan.textContent = roundDecimal(covidData.metrics.caseDensity);
   dcSpan2.className = "small";
   dcSpan2.textContent = " per 100K";
 
@@ -164,7 +242,7 @@ function displayCovidData() {
 
   irDiv.className = "risk-result " + getInfectinRateLevel;
   irSpan.className = "bold";
-  irSpan.textContent = covidData.metrics.infectionRate + "%";
+  irSpan.textContent = roundDecimal(covidData.metrics.infectionRate) + "%";
 
   infectionRateEl.appendChild(irDiv);
   infectionRateEl.appendChild(irSpan);
@@ -182,7 +260,7 @@ function displayCovidData() {
 
   ptDiv.className = "risk-result " + getPositiveTestLevel;
   ptSpan.className = "bold";
-  ptSpan.textContent = getPositiveTestNum + "%";
+  ptSpan.textContent = roundDecimal(getPositiveTestNum) + "%";
 
   positiveRateEl.appendChild(ptDiv);
   positiveRateEl.appendChild(ptSpan);
@@ -197,8 +275,12 @@ function displayCovidData() {
   deathsEl.textContent = numberWithCommas(covidData.actuals.deaths);
 
   const hospitalizedEl = document.getElementsByClassName("hospitalized");
-  hospitalizedEl[0].textContent = numberWithCommas(covidData.actuals.hospitalBeds.currentUsageCovid + covidData.actuals.icuBeds.currentUsageCovid);
-  hospitalizedEl[1].textContent = numberWithCommas(covidData.actuals.hospitalBeds.currentUsageCovid + covidData.actuals.icuBeds.currentUsageCovid);
+  hospitalizedEl[0].textContent = numberWithCommas(
+    covidData.actuals.hospitalBeds.currentUsageCovid + covidData.actuals.icuBeds.currentUsageCovid
+  );
+  hospitalizedEl[1].textContent = numberWithCommas(
+    covidData.actuals.hospitalBeds.currentUsageCovid + covidData.actuals.icuBeds.currentUsageCovid
+  );
 
   const stableEl = document.getElementsByClassName("stable-condition");
   stableEl[0].textContent = numberWithCommas(covidData.actuals.hospitalBeds.currentUsageCovid);
@@ -212,7 +294,14 @@ function displayCovidData() {
 //function to place commas in a number
 //SOURCE: (https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript)
 function numberWithCommas(x) {
+  if (x === null || x === 0) {
+    return "N/A";
+  }
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function roundDecimal(num) {
+  return Math.round(num * 10) / 10;
 }
 
 function getRiskResult(type, num) {
@@ -273,6 +362,8 @@ function getRiskResult(type, num) {
   }
 }
 
+function setHeaderText() {}
+
 function setElements() {
   if ($(window).width() <= 991) {
     $("#x1").addClass("d-none");
@@ -292,6 +383,15 @@ function setElements() {
     $(".top-row").addClass("d-flex justify-content-between").removeClass("d-block justify-content-center");
   }
 }
+
+$(window).on("scroll", function () {
+    if($(document).scrollTop() > 0) {
+    $(".curve").css("padding", "0.1em 0.5em 1em").css("transition", "0.25s");
+  } else {
+    $(".curve").css("padding", "2em 0.5em 1.5em").css("transition", "0.25s");
+    $(".curve").css("padding-bottom", "4em");
+  }
+});
 
 $(window).on("resize", function () {
   setElements();
